@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>		
+		<selector>
+			<expression>table#threadlisttableid > tbody > tr > th > a.s.xst
+			</expression>
+			<column type="URL" repeatstore="HASH_4_MALA_ARTICLE_REPEAT" crawlrepeat="1">
+			<!-- <column type="URL"> -->
+				<attrname>href</attrname>
+				<repeatkey find=".*thread-\d+-"></repeatkey>
+				<getpagenum replace=".*thread-\d+-|-.*" findall4url=".*thread-\d+-|-.*" repeatstore="HASH_4_MALA_ARTICLE_REPEAT">o</getpagenum>
+			</column>
+		</selector>
+		<selector>
+			<expression>span#fd_page_bottom > div > a.nxt</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+				<endpage replace=".*-\d+-|\.html">1</endpage>
+				<maxpagenum replace=".*-\d+-|\.html">2</maxpagenum>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.mala\.cn/forum-\d+-\d+\.html$</pattern>
+</root>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>xishuluntan</collectname>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<selector>
+			<expression>#ct > div</expression>
+			<selector>
+				<expression>tbody[id^=normalthread]> tr > th > a.s.xst</expression>
+				<column name="object_id" type="ID">   <!-- 文章ID -->
+					<repeatkey find="http://bbs\.xishu365\.com/thread-\d+" repeatstore="HASH_4_XISHU_ARTICLE_ID"></repeatkey>
+				</column>
+				<column type="URL" repeatstore="HASH_4_XISHU_ARTICLE_REPEAT" crawlrepeat="1">                              <!-- 文章链接 -->
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>#pgt div>a.nxt</expression>
+				<column type="URL">                      <!-- 后一页 -->
+					<attrname>href</attrname>
+					<maxpagenum find="\d+\.html"  replace="\.html" >2</maxpagenum>
+					<endpage  find="\d+\.html" replace="\.html" >2</endpage>
+				</column> 
+			</selector>
+		</selector>
+	</template>
+	<pattern>^http://bbs\.xishu365\.com/forum-(\d+)-(\d+)\.html$</pattern>
+</root>

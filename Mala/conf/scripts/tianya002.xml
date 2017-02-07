@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>tianya_community_basic_info</collectname>		
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="1" repeatstore="HASH_4_TIANYA_ARTICLE_REPEAT">
+			<filter>all</filter>
+		</contentfilter>
+		<onlypage find="\d+\.shtml" replace="[^0-9]">1</onlypage>
+		
+		<selector>
+			<expression>div>div#doc>div#bd</expression>
+				<selector>
+					<expression>div.atl-head>h1.atl-title>span.s_title</expression>
+					<column name="object_title" type="string"></column>   <!-- 文章标题 -->
+					<column name="object_url" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>								
+				</selector>
+				<selector>
+						<expression>div.atl-head>div.atl-menu>div.atl-info</expression>
+						<selector>
+							<expression>span>a[uname]</expression>
+							<column name="object_author" type="string"></column>  <!-- 作者 -->
+						</selector>
+						<selector>
+							<expression>span:nth-child(2)</expression>
+							<column name="public_datetime" find="\d.+" type="string"></column>  <!-- 发帖时间 -->
+						</selector>
+						<selector>
+							<expression>span:nth-child(3)</expression>
+							<column name="brow_count" find="\d+" type="string"></column>  <!-- 点击量 -->
+						</selector>
+						<selector>
+							<expression>span:nth-child(4)</expression>
+							<column name="reply_count" find="\d+" type="string"></column>  <!-- 回复量 -->
+						</selector>						
+					
+				</selector>	
+				<selector>
+					<expression>div.atl-main</expression>
+					<selector>
+						<expression>div.host-item>div.atl-content>div.atl-con-bd>div.bbs-content</expression>
+						<column name="object_content" type="string"></column>  <!-- 文章内容 -->
+					</selector>						
+				</selector>
+		
+		</selector>		
+	</template>
+	
+	<template>
+		<queuename>SEEDS_LIST_4_DOWNLOADER</queuename>
+		<collectname>tianya_replycomment_basic_info</collectname>
+		
+		<tempdata>url|object_id</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="2" repeatstore="HASH_4_TIANYA_ARTICLE_REPEAT">
+			<filter rownotnullcol="object_content">null</filter>
+			<endnext type="date" ordertype="1">reply_datetime</endnext>
+		</contentfilter>
+		<removefirstrow find="\d+\.shtml" replace="[^0-9]">true</removefirstrow>
+		<savepagenum replace=".*post-\d+-\d+-|\.shtml" findall4url=".*post-\d+-\d+-|\.shtml"  repeatstore="HASH_4_TIANYA_ARTICLE_REPEAT">o</savepagenum>
+		
+		<selector>
+			<expression>div>div#doc>div#bd>div.atl-main>div[class=atl-item]</expression>
+				<column name="object_id" type="ID"></column>
+				<column name="parent_object_id" type="string" >
+					<formatter>
+						<template>{objectId}</template>
+						<ref tempdata="true">object_id</ref>  
+					</formatter>
+				</column>
+				<column name="object_url" type="string" >
+					<formatter>
+						<template>{url}</template>
+						<ref replace="-\d+\.shtml" tempdata="true" value="-1.shtml">url</ref>  
+					</formatter>
+				</column>
+				<selector>
+					<expression>div.atl-head>div.atl-info</expression>
+						<selector>
+							<selector>
+								<expression>span>a[uname]</expression>
+								<column name="reply_person" type="string"></column>  <!-- 评论人 -->
+								<column name="reply_person_url" type="string">
+									<attrname>href</attrname>
+								</column>
+							</selector>
+							<selector>
+								<expression>span:nth-child(2)</expression>
+								<column name="reply_datetime" replace="时间：" type="date"></column>  <!-- 评论时间 -->
+							</selector>								
+						</selector>
+				</selector>
+				<selector>
+					<expression>div.atl-content>div.clearfix>div.bbs-content</expression>
+					<column name="object_content" type="string"></column>  <!-- 评论内容 -->
+					<column name="reply_floor" type="constant" value="0"></column>
+				</selector>				
+		</selector>	
+		<selector>
+			<expression>#post_head > div > div.atl-pages > form > a.js-keyboard-next</expression>
+			<column type="URL">											<!-- 评论页下一页 -->
+				<attrname>href</attrname>
+			</column>				
+		</selector>	
+	</template>
+	<pattern>^http://bbs\.tianya\.cn/post-\d+-\d+-\d+\.shtml$</pattern>	
+	
+</root>

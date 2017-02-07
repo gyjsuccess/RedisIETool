@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+	<!-- 网页布局如：http://world.people.com.cn/n1/2016/1212/c1002-28942531.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>		
+		<contentfilter increment="2" repeatstore="HASH_4_PEOPLE_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>	
+		<selector>
+			<expression>body</expression>			
+			<selector>
+				<expression>div.text_title</expression>
+				<selector>
+					<expression>h1</expression>
+					<column name="title" type="string"></column>	文章标题	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->	
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_PEOPLE_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>	
+				
+				<selector>
+					<expression>p.author</expression>
+					<column name="author" type="string" replace="本报记者 "></column>	作者 
+				</selector>
+						
+				<selector>
+					<expression>div.box01 > div.fl</expression>
+					<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\d+:\d+"></column>	出版时间
+					<column name="sourceSiteName" type="string" find="来源：.*" replace="来源："></column>	来源				
+					<!-- <selector>
+						<expression>a</expression>
+						<column name="sourceSiteName" type="string" find="来源：.*" replace="来源："></column>	来源			
+					</selector>	 -->		
+				</selector>		
+			</selector>	
+			
+			<selector>
+				<expression>div.text_con > div.text_con_left > div.box_con</expression>
+				<column name="content" type="string"></column>	文章内容
+				<selector>
+					<expression whole="1">p > img[src], p.pictext|p.span|div.box_pic tbody</expression>				
+					<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题				
+				</selector>			
+				<selector>
+					<expression>div.edit</expression>
+					<column name="epEditor" type="string" replace="\(责编：|\)|\(实习生\)" ></column>	责任编辑
+					<column name="getDateTime" type="DATE"></column>
+				</selector>
+			</selector>			
+		</selector>				
+	</template>
+	
+	<!-- 网页布局如：http://health.people.com.cn/n1/2016/1209/c14739-28936339.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_PEOPLE_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		
+		<selector>
+			<expression>div.fl</expression>
+			<!-- <selector> -->
+				<!-- <expression>div.columWrap > div.articleCont</expression> -->
+				<selector>
+					<expression>div.title</expression>
+					<selector>
+						<expression>h2|h3</expression>
+						<column name="title" type="string"></column>	文章标题
+						<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+						<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+						<column name="entityId" type="ID" isentity="true">
+							<repeatkey repeatstore="HASH_4_PEOPLE_ENTITY_ID"></repeatkey>
+						</column>
+						<column name="entityUrl" type="string">
+							<formatter>
+								<template>{url}</template>
+								<ref tempdata="true">url</ref>
+							</formatter>
+						</column>
+					</selector>
+					<selector>
+						<expression>p</expression>
+						<column name="author" type="string" replace="本报记者 "></column>	作者 				
+					</selector>				
+				</selector>
+			
+				<selector>
+					<expression>div.artOri</expression>
+					<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\d+:\d+"></column>	出版时间
+					<column name="sourceSiteName" type="string" find="来源：.*" replace="来源："></column>	来源
+				</selector>
+			
+				<selector>
+					<expression>div.artDet</expression>
+					<column name="content" type="string"></column>	文章内容			
+					<selector>
+						<expression whole="1">p > img[src]</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题	
+					</selector>				
+				</selector>
+			
+				<selector>
+					<expression>div.editor</expression>
+					<column name="epEditor" type="string" replace="\(责编：|\)|\(实习生\)" ></column>	责任编辑
+					<column name="getDateTime" type="DATE"></column>
+				</selector>
+		
+			</selector>
+		
+		<!-- </selector> -->
+							
+	</template>
+	
+	<!-- 网页布局如：http://politics.people.com.cn/n/2012/1230/c1001-20057023.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_PEOPLE_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>section.left</expression>
+			<selector>
+				<expression>h1#p_title</expression>
+				<column name="title" type="string"></column>	文章标题
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_PEOPLE_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>			
+			</selector>
+			<selector>
+				<expression>p.author</expression>
+				<column name="author" type="string" replace="本报记者 "></column>	作者 	
+			</selector>
+			<selector>
+				<expression>h5</expression>
+				<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\d+:\d+"></column>	出版时间
+				<column name="getDateTime" type="DATE"></column>
+				<column name="sourceSiteName" type="string" find="来源：[\u4E00-\u9FA5]+" replace="来源：\\s*"></column>	来源	
+			</selector>
+			
+			<selector>
+				<expression>div.text</expression>
+				<selector>
+					<expression>div#p_content</expression>
+					<column name="content" type="string"></column>	文章内容			
+					<selector>
+						<expression whole="1">p img[src]</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题	
+					</selector>				
+				</selector>
+				<selector>
+					<expression>div.edit #p_editor</expression>
+					<column name="epEditor" type="string" replace=".*编辑：|\)|\(实习生\)" ></column>	责任编辑
+				</selector>
+				
+			</selector>			
+			
+		</selector>		
+		
+	</template>
+	
+	<!-- 网页布局如：http://fanfu.people.com.cn/n1/2016/1212/c64371-28943608.html -->
+ 	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_PEOPLE_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.text_con > div.text_c</expression>
+			<selector>
+				<expression>h1</expression>
+				<column name="title" type="string"></column>
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_PEOPLE_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>			
+			</selector>
+			<selector>
+				<expression>p.sou</expression>
+				<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\d+:\d+"></column>	出版时间
+				<column name="getDateTime" type="DATE"></column>
+				<column name="sourceSiteName" type="string" find="来源：[\u4E00-\u9FA5]+" replace="来源："></column>	来源	
+			</selector>
+			<selector>
+				<expression>div.show_text</expression>
+				<column name="content" type="string"></column>
+				<selector>
+					<expression whole="1">p img[src]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>
+				</selector>				
+			</selector>
+			<selector>
+				<expression>div.edit</expression>
+				<column name="epEditor" type="string" replace=".*编：|\)|\(实习生\)" ></column>
+			</selector>	
+		</selector>
+		
+	</template>
+	
+	
+	<pattern>^http://(\w+\.)people\.com\.cn(/\w+)+-\d+\.html$</pattern>
+</root>

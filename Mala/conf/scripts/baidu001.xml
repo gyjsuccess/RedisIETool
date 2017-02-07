@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<selector>
+			<expression>ul > li.j_thread_list a.j_th_tit</expression>
+			<column name="object_id" type="ID">   <!-- 文章ID -->
+				<repeatkey replace="\?pn=\d+" repeatstore="HASH_4_TIEBA_ARTICLE_ID"></repeatkey>
+			</column>
+			<column type="URL" repeatstore="HASH_4_TIEBA_ARTICLE_REPEAT" referer="object_id">	<!-- 标题列表 -->
+				<formatter>
+					<template>{self}?pn=1</template>
+				</formatter>
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		<selector>
+			<expression>#frs_list_pager > a.next.pagination-item</expression> 
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://bbs\.tianya\.cn/list\.jsp\?item=455(&amp;nextid=\d+)?</pattern>
+</root>

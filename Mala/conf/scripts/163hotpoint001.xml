@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<selector>
+			<expression>div.more > a[href]</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://news\.163\.com/rank/$</pattern>
+</root>

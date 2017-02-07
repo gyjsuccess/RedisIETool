@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 网页布局如：http://news.ifeng.com/a/20161209/50389737_0.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>	
+		<selector>
+			<expression>div.left > div#artical</expression>
+			<selector>
+				<expression>h1</expression>				
+				<column name="title" type="string"></column>	<!-- 文章标题 -->	
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_IFENG_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div#artical_sth</expression>
+				<selector>
+					<expression>p.p_time</expression>
+					<selector>
+						<expression>span.ss01</expression>
+						<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+					</selector>					
+					<selector>
+						<expression>span[itemprop=publisher] > span.ss03</expression>
+						<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+					</selector>
+					<selector>
+						<expression>span[itemprop=author] > span[itemprop=name]</expression>
+						<column name="author" type="string"></column>	<!-- 作者 -->
+					</selector>					
+				</selector>	
+				<selector>
+					<expression>div#js_comment_box03</expression>
+					<selector>
+						<expression>h5.js_commentCount em.js_joinNum</expression>
+						<column name="joinCount" type="string"></column>	<!-- 参与人数（动态） -->
+					</selector>
+					<selector>
+						<expression>h5.js_commentCount em.js_cmtNum</expression>
+						<column name="commentCount" type="string"></column>	<!-- 评论数（动态） -->
+					</selector>
+				</selector>					
+			</selector>				
+			<selector>
+				<expression>div#artical_real</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">div#main_content > p.detailPic > img[src],div#main_content > p.picIntro > span</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>				
+			</selector>						
+			<selector>
+				<expression>div#artical_sth2</expression>
+				<selector>
+					<expression whole="1">p.p01.ss_none > a</expression>
+					<column name="tag" type="keywords" replace="标签：" ></column>	<!-- 标签 -->					
+				</selector>
+				<selector>
+					<expression>p.iphone_none</expression>
+					<column name="epEditor" type="string" replace="\[责任编辑：|\]" ></column>	<!-- 责任编辑 -->
+					<column name="getDateTime" type="DATE"></column>
+					<!-- <column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+						<formatter>
+							<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+							<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+							<ref tempdata="true" urlencode="1">url</ref>
+						</formatter>
+					</column> -->
+				</selector>				
+			</selector>			
+		</selector>	
+	</template>
+	
+	
+	<!-- 网页布局如：http://news.ifeng.com/a/20161209/50389969_0.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>	
+		<selector>
+			<expression>div.yc_main.wrap</expression>
+			<selector>
+				<expression>div.yc_con.clearfix > div.yc_con_l</expression>
+				<selector>
+					<expression>div.yc_con_txt:first-child</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->					
+					<selector>
+						<expression whole="1">p.detailPic > img[src],p.picIntro > span</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+					</selector>
+				</selector>
+				<selector>
+					<expression>div.yc_con_txt > p.yc_zb</expression>
+					<column name="epEditor" type="string" replace="责编：" ></column>	<!-- 责任编辑 -->
+					<column name="getDateTime" type="DATE"></column>
+					<!-- <column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+						<formatter>
+							<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+							<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+							<ref tempdata="true" urlencode="1">url</ref>
+						</formatter>
+					</column> -->				
+				</selector>			
+			</selector>	
+			<selector>
+				<expression>div.yc_tit</expression>
+				<selector>
+					<expression>h1</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_IFENG_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>p</expression>
+					<selector>
+						<expression>span</expression>
+						<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+						<selector>
+							<expression>a</expression>
+							<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+						</selector>		
+						<column name="getDateTime" type="DATE"></column>
+					<!-- 	<column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+							<formatter>
+								<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+								<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+								<ref tempdata="true" urlencode="1">url</ref>
+							</formatter>
+						</column> -->										
+					</selector>								
+				</selector>	
+				<selector>
+					<expression>div#js_comment_box03</expression>
+					<selector>
+						<expression>h5.js_commentCount em.js_joinNum</expression>
+						<column name="joinCount" type="string"></column>	<!-- 参与人数（动态） -->
+					</selector>
+					<selector>
+						<expression>h5.js_commentCount em.js_cmtNum</expression>
+						<column name="commentCount" type="string"></column>	<!-- 评论数（动态） -->
+					</selector>
+				
+				</selector>		
+			</selector>
+			<!-- <selector>
+				<expression>div.yc_con.clearfix > div.yc_con_l</expression>
+				<selector>
+					<expression>div.yc_con_txt:first-child</expression>
+					<column name="content" type="string"></column>	文章内容					
+					<selector>
+						<expression whole="1">p.detailPic,p.picIntro</expression>
+						<column name="picAndName" type="string"></column>	图片和标题
+					</selector>
+				</selector>
+				<selector>
+					<expression>div.yc_con_txt > p.yc_zb</expression>
+					<column name="epEditor" type="string" replace="责编：" ></column>	责任编辑
+					<column name="getDateTime" type="DATE"></column>
+					<column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+						<formatter>
+							<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+							<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+							<ref tempdata="true" urlencode="1">url</ref>
+						</formatter>
+					</column>				
+				</selector>			
+			</selector>	 -->	
+		</selector>	
+	</template>
+	
+	<!-- 网页布局如：http://auto.ifeng.com/quanmeiti/20161209/1075949.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>			
+		<contentfilter increment="2" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.arl-mian.fl > div.br</expression>
+			<selector>
+				<expression>div.arl-cont</expression>
+				<selector>
+					<expression>h3</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->			
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_IFENG_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">	<!-- 文章链接 -->
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.artInfo</expression>
+					<selector>
+						<expression>div.d1</expression>
+						<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->	
+					</selector>
+					<selector>
+						<expression>div.d2</expression>
+						<column name="sourceSiteName" type="string" replace="来源："></column>	<!-- 来源 -->
+					</selector>				
+				</selector>
+				<selector>
+					<expression>div.arl-c-txt</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+					<selector>
+						<expression whole="1">p > img[src]</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+					</selector>
+				</selector>			
+			</selector>			
+			<selector>
+				<expression whole="1">div.arl-label > div.alst > a</expression>
+				<column name="tag" type="keywords"></column>	<!-- 文章标签 -->			
+			</selector>			
+			<selector>
+				<expression>div[style]</expression>
+				<column name="epEditor" type="string" replace="责任编辑：" ></column>	<!-- 责任编辑 -->	
+				<column name="getDateTime" type="DATE"></column>
+			<!-- 	<column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+					<formatter>
+						<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+						<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+						<ref tempdata="true" urlencode="1">url</ref>
+					</formatter>
+				</column> -->		
+			</selector>			
+		</selector>		
+	</template>	
+	
+	<!-- 网页布局如：http://games.ifeng.com/a/20161219/44517680_0.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>	
+		<selector>
+			<expression>div.main > div#artical</expression>
+			<selector>
+				<expression>h1</expression>				
+				<column name="title" type="string"></column>	<!-- 文章标题 -->	
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->		
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_IFENG_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div#artical_sth > p</expression>
+				<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\s*\d+:\d+"></column>	<!-- 出版时间 -->
+				<column name="getDateTime" type="DATE"></column>
+				<column name="sourceSiteName" type="string" find="来源：[\u4E00-\u9FA5]+" replace="来源："></column>	<!-- 来源 -->					
+			</selector>				
+			<selector>
+				<expression>div#artical_real > div#main_content</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">p.detailPic > img[src],p.picIntro</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>				
+			</selector>						
+			<selector>
+				<expression>div#artical_sth2</expression>	
+				<selector>
+					<expression whole="1">a</expression>
+					<column name="tag" type="keywords" replace="标签："></column>	<!-- 标签 -->	
+				</selector>	
+				<selector>
+					<expression>span</expression>
+					<column name="epEditor" type="string" find="\[?责任编辑：.*\]?" replace="\[?责任编辑：|\]?"></column>	<!-- 责任编辑 -->
+				</selector>					
+			</selector>
+		</selector>	
+	</template>	
+	
+	
+	<!-- 网页布局如：http://cd.house.ifeng.com/detail/2016_12_09/50955283_0.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>		
+		<selector>
+			<expression>div.col-l</expression>
+			<selector>
+				<expression>div.title</expression>
+				<selector>
+					<expression>h2</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->			
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_IFENG_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">	<!-- 文章链接 -->
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.marb-5 > span</expression>
+					<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->					
+				</selector>
+				<selector>
+					<expression>div.pr</expression>
+					<selector>
+						<expression>span</expression>
+						<column name="sourceSiteName" type="string" replace="来源："></column>	<!-- 来源 -->
+					</selector>
+					<selector>
+						<expression>div.status</expression>
+						<selector>
+							<expression>div.peoples</expression>
+							<column name="joinCount" type="string" replace=" 人参与"></column>	<!-- 参与人数（动态） -->
+						</selector>
+						<selector>
+							<expression>div.comments</expression>
+							<column name="commentCount" type="string" replace=" 评论"></column>	<!-- 评论数（动态） -->	
+						</selector>						
+					</selector>					
+					
+				</selector>
+							
+			</selector>
+			<selector>
+				<expression>div.article</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">div.col-l > div.article > p > img[src],div.col-l > div.article > p > span</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div.article-info.clearfix</expression>
+				<selector>
+					<expression whole="1">a</expression>
+					<column name="tag" type="keywords"></column>	<!-- 文章标签 -->				
+				</selector>
+				<selector>
+					<expression>span</expression>
+					<column name="epEditor" type="string" replace="\[责任编辑：|\]" ></column>	<!-- 责任编辑 -->	
+					<column name="getDateTime" type="DATE"></column>
+				<!-- 	<column type="URL" referer="entityId|entityUrl|articleType|title|publishDateTime|sourceSiteName|author|content|epEditor|getDateTime|tag|picAndName">
+						<formatter>
+							<template>http://comment.ifeng.com/get.php?doc_url={url}&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount</template>
+							<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+							<ref tempdata="true" urlencode="1">url</ref>
+						</formatter>
+					</column> -->				
+				</selector>			
+			</selector>
+		</selector>		
+	</template>	
+	
+	<pattern>^http://(\w+\.)+ifeng\.com(/\w+)+\.shtml$</pattern>
+</root>

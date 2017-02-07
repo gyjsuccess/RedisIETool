@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 版务 (没有上级页面) -->
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<pageinitnum>1</pageinitnum>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div.area-half.right > div > div.tabContents:nth-last-child(3) > table tr td >a[href]
+			</expression>
+			<column name="entityId" type="ID">   <!-- 文章ID -->
+			</column>
+			<column name="getType" type="constant" value="0"></column>
+			<column type="URL" repeatstore="HASH_4_163_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId|getType">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>
+	
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<pageinitnum>1</pageinitnum>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div.area-half.left > div > div.tabContents:nth-last-child(3) > table tr|div.area-half.left > div > div.tabContents:nth-last-child(2) > table tr
+			</expression>
+			<selector>
+				<expression>td.cBlue:nth-child(2)
+				</expression>
+				<column name="viewCount" type="integer">
+				</column>
+			</selector>
+			<selector>
+				<expression>td:nth-child(1) >a[href]
+				</expression>
+				<column name="entityId" type="ID">   <!-- 文章ID -->
+				</column>
+				<column type="URL" repeatstore="HASH_4_163_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId|viewCount">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^http://news\.163\.com/special/\w+/rank_\w+\.html$</pattern>
+</root>

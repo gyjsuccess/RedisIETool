@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_celebrity_info</collectname>
+		<initdata>entityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<selector>
+			<expression>div#content</expression>
+			<selector>
+				<expression>h1</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="name" type="string"></column> <!-- 名称 -->
+				<!-- <column name="name" type="string"></column> --> <!-- 本地化名称 英语、日语、韩语-->
+				<column name="celebrityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+				<column name="celebrityId" type="ID"></column>
+			</selector>
+			<selector>
+				<expression>div.clearfix > div.article</expression>
+				<selector>
+					<expression>div#intro > div.bd</expression>
+					<column name="summariness" type="string"></column> <!-- 影人简介 -->
+				</selector>
+				<selector>
+					<expression>div#headline > div.info > ul</expression>
+					<column name="detailInfo" type="string"></column> <!-- 基本信息 -->
+				</selector>
+				<selector>
+					<expression>div.mod:nth-child(4) > div.hd > h2 > span > a:nth-child(1)</expression>
+					<column name="photosCount" find="\d+" type="string"></column> <!-- 图片数量 -->
+				</selector>
+				<!-- <selector>
+					<expression>div#recent_movies > div.bd > ul.list-s</expression>
+					<column name="recentMovies" type="string"></column>
+				</selector>
+				<selector>
+					<expression>div#best_movies > div.bd > ul.list-s</expression>
+					<column name="bestMovies" type="string"></column>
+				</selector> -->
+				<selector>
+					<expression>div#recent_movies a[href]</expression>
+					<column type="URL" referer="celebrityId"> <!-- 全部作品 -->
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>div#partners h2 > span > a[href]</expression>
+					<column type="URL" referer="celebrityId"> <!-- 合作2次以上的影人 -->
+						<attrname>href</attrname>
+					</column>
+				</selector>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/celebrity/\w+/$</pattern>
+</root>

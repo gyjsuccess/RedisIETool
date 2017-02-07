@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 版务 (没有上级页面) -->
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<pageinitnum>0</pageinitnum>
+		<repeatkey find=".*thread-\d+-"></repeatkey>
+		<selector>
+			<expression>table#threadlisttableid > tbody > tr > th > a.s.xst
+			</expression>
+			<column name="object_id" type="ID">   <!-- 文章ID -->
+			</column>
+			<column type="URL" repeatstore="HASH_4_MALA_ARTICLE_REPEAT" crawlrepeat="1" referer="object_id">
+				<attrname>href</attrname>
+				<repeatkey find=".*thread-\d+-"></repeatkey>
+				<getpagenum replace=".*thread-\d+-|-.*" findall4url=".*thread-\d+-|-.*" repeatstore="HASH_4_MALA_ARTICLE_REPEAT">o</getpagenum>
+			</column>
+		</selector>
+		<selector>
+			<expression>span#fd_page_bottom > div > a.nxt</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+				<endpage replace=".*-\d+-|\.html">1</endpage>
+				<maxpagenum replace=".*-\d+-|\.html">1</maxpagenum>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.mala\.cn/forum-\d+-\d+\.html$</pattern>
+</root>

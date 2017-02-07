@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 点击量排行 -->
+	<template>	
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<pageinitnum>1</pageinitnum>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div.conTab > div:first-child > table > tbody > tr~tr</expression>
+			<selector>
+				 <expression>td:nth-child(3)</expression>
+				 <column name="viewCount" type="integer"></column>	<!-- 点击量 -->			
+			</selector>
+			<!-- <selector>
+				<expression>td:nth-child(4)</expression>
+				<column name="publishDateTime" type="string"></column>
+			</selector> -->
+			<selector>
+				<expression>td > h3 >a[href]</expression>
+				<column name="entityId" type="ID">   <!-- 文章ID -->
+				</column>
+				<column type="URL" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId|viewCount">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>			
+		</selector>
+	</template>
+	
+	<!-- 评论数排行 -->
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<pageinitnum>1</pageinitnum>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div.conTab > div:nth-child(2) > table > tbody > tr~tr</expression>
+			<selector>
+				 <expression>td:nth-child(3)</expression>
+				 <column name="dayCommentCount" type="string"></column>	<!-- 当天评论数 -->			
+			</selector>
+			<selector>
+				<expression>td > h3 >a[href]</expression>
+				<column name="entityId" type="ID">   <!-- 文章ID -->
+				</column>
+				<column type="URL" repeatstore="HASH_4_IFENG_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId|dayCommentCount">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>			
+		</selector>
+	</template>	
+	<pattern>^http://news\.ifeng\.com/hotnews/$</pattern>
+</root>

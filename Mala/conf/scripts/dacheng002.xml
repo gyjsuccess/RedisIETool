@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  -->
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+			<selector>
+				<expression>div#threadlist > div.thread-list > form >
+					table#threadlisttableid > tbody~tbody > tr > th >a.s.xst</expression>
+				<column name="object_id" type="ID" >   <!-- 文章ID -->
+				</column>
+				<column type="URL" repeatstore="HASH_4_DACHENG_ARTICLE_REPEAT" referer="object_id" crawlrepeat="1">	<!-- 标题列表 -->
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.cl.page_box.mt20 > div > div > a.nxt</expression>  <!-- 标题下一页 -->
+				<column type="URL" >
+					<attrname>href</attrname>
+					<maxpagenum find="\d+\.htm" replace="\.htm" >2</maxpagenum>
+					<endpage  find="\d+\.htm" replace="\.htm" >2</endpage>
+				</column>
+			</selector>
+	</template>
+	<pattern>^http://mycd\.qq\.com/f-\d+-\d+\.htm$</pattern>
+</root>

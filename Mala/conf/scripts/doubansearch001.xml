@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>tbody > tr > td[valign=top] > div > a</expression>
+			<column type="URL" repeatstore="HASH_4_DBAN_ENTITY_REPEAT">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>
+	<pattern>^https://movie.douban.com/subject_search\?search_text=.*&amp;cat=1002$</pattern>
+</root>

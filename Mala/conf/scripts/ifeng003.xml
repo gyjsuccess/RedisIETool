@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>jsonp</datatype>
+		<sourcedeal find="&quot;count&quot;:\d+,&quot;join_count&quot;:\d+" prefix="{" suffix="}"></sourcedeal>
+		<repeatkey></repeatkey>
+		<selector>
+			<column name="commentCount" type="integer"><attrname>count</attrname></column>
+			<column name="joinCount" type="integer"><attrname>join_count</attrname></column>			
+		</selector>
+	</template>	
+	<pattern>^htt1111p://comment\.ifeng\.com/get\.php\?doc_url=.+&amp;format=js&amp;job=1&amp;callback=callbackGetFastCommentCount&amp;callback=callbackGetFastCommentCount$</pattern>
+</root>

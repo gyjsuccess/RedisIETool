@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<collectname>mala_reply_info_collect</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="1">
+			<filter>null</filter>
+			<endnext type="date" ordertype="1">replyDate</endnext>
+		</contentfilter>
+		<selector>
+			<expression>div#postlist > div > table > tbody > tr:nth-child(1)</expression>
+			<selector>
+				<expression>td.pls > div > div.pi > div.authi > a|td.pls > div > div.pi > a > em</expression>
+				<column name="replyAuthor" type="string"></column>
+				<column name="articleId" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true" replace=".*tid=|&amp;extra.*" value="">url</ref>
+					</formatter>
+				</column>
+				<column name="spaceUrl" type="URL" referer="articleId" filter="javascript:;" repeatstore="HASH_4_MALA_USER_REPEAT">
+					<formatter>
+						<template>{self}&amp;do=profile</template>
+					</formatter>
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>td.plc</expression>
+				<selector>
+					<expression>div.pi > div.pti > div.authi > em</expression>
+					<column name="replyDate" type="date" replace="[^:\-\d ]"></column>
+					<column name="articleId" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true" replace=".*tid=|&amp;extra.*" value="">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.pct > div</expression>
+					<column name="replyContent" type="string"></column>
+				</selector>
+				<selector>
+					<expression>div.pi > strong > a > em</expression>
+					<column name="floorNum" type="string"></column>
+				</selector>
+			</selector>
+		</selector>
+		<selector>
+			<expression>div#ct > div.pgs.mtm.mbm.cl > div > a.nxt</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.mala\.cn/forum\.php\?mod=viewthread&amp;tid=\d+&amp;extra=&amp;ordertype=1.*</pattern>
+</root>

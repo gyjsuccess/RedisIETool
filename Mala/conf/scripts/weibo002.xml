@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 网页布局如：http://weibo.com/ttarticle/p/show?id=2309404060214180594046 -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_WEIBO_ARTICLE_REPEAT">
+			<filter rownotnullcol="content">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.WB_artical</expression>
+			<selector>
+				<expression>div.main_editor </expression>
+				<selector>
+					<expression>div.title</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->
+					<!-- <column name="commentCount" type="constant" value="199"></column>	评论数（动态）	
+					<column name="viewCount" type="constant" value="1999"></column>	阅读数（动态）
+					<column name="likeCount" type="constant" value="19"></column>	点赞数（动态） -->
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_WEIBO_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>				
+				</selector>
+				<selector>
+					<expression>div.authorinfo</expression>
+					<selector>
+						<expression>div.W_fl</expression>
+						<selector>
+							<expression>span.author1|span.author2</expression>
+							<column name="author" type="string" replace="作者："></column>
+						</selector>
+						<selector>
+							<expression>span.time</expression>
+							<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+							<column name="getDateTime" type="DATE"></column>
+						</selector>					
+					</selector>
+					<selector>
+						<expression>div.W_fr > span.num</expression>
+						<column name="joinCount" type="string" find="\d+.*" replace="万\+?" value="0000"></column>	<!-- 参与人(动态) -->
+					</selector>				
+				</selector>
+				<selector>
+					<expression>div.WB_editor_iframe</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+					<selector>
+						<expression whole="1">p img[src]</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+					</selector>
+				</selector>
+			
+			</selector>
+			<selector>
+				<expression>div.WB_feed > div.WB_cardwrap div.WB_feed_handle > div.WB_handle > ul.WB_row_line</expression>
+				<selector>
+					<expression>li:nth-child(2) > a > span > span</expression>
+					<column name="commentCount" type="string" replace="评论\s*" value="0"></column><!-- 评论数(动态) -->
+				</selector>
+				<!-- <selector>
+					<expression>li:nth-child(3) > a > span > span</expression>
+					<column name="likeCount" type="string"></column>
+				</selector> -->			
+			</selector>		
+		</selector>		
+	</template>	
+	
+	
+	<!-- 网页布局如：http://weibo.com/5950061090/EpjjaszE8?ref=feedsdk -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_WEIBO_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.WB_cardwrap.WB_feed_type</expression>
+			<selector>
+				<expression>div.WB_feed_detail > div.WB_detail</expression>
+				<selector>
+					<expression>div.WB_info</expression>
+					<column name="author" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_WEIBO_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>				
+				</selector>
+				<selector>
+					<expression>div.WB_from > a[title]</expression>
+					<column name="publishDateTime" type="date">
+						<attrname>title</attrname>
+					</column>	<!-- 出版时间 -->
+					
+					
+					<column name="getDateTime" type="DATE"></column>				
+				</selector>
+				<selector>
+					<expression>div.WB_text</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+				</selector>				
+				<selector>
+					<expression>div.WB_text > a.a_topic:first-child|div.WB_text</expression>
+					<column name="title" nodenum="0" type="string"></column> <!-- 文章标题 -->
+				</selector>	
+				
+				
+				<selector>
+					<expression whole="1">div.WB_expand_media_box img[src]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>			
+			</selector>
+			
+			<selector>
+				<expression>div.WB_feed_handle > div.WB_handle > ul.WB_row_line.WB_row_r4</expression>
+				<selector>
+					<expression>li:nth-child(3)</expression>
+					<column name="commentCount" type="string" find="\d+万?\+?" replace="万\+?" value="0000"></column><!-- 评论数(动态) -->	
+				</selector>
+				<selector>
+					<expression>li:nth-child(4)</expression>
+				<column name="joinCount" type="string" find="\d+万?\+?" replace="万\+?" value="0000"></column>	<!-- 参与人(动态) -->				
+				</selector>
+				
+			</selector>			
+		</selector>	
+		
+	</template>
+	
+	
+	<pattern>^http://weibo\.com(/\w+)+\?(\w+=\w+&amp;?)+$</pattern>
+</root>

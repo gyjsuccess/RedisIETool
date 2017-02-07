@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_reviews</collectname>
+		<initdata>entityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<contentfilter increment="2">
+			<filter rownotnullcol="content">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div#content</expression>
+			<selector>
+				<expression>h1 > span[property]</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="title" type="string"></column>
+				<column name="reviewUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.article > div > div </expression>
+				<selector>
+					<expression>header > a:nth-child(1)</expression>
+					<column name="peopleNickName" type="string"></column>
+					<column name="peopleSpace" type="string">
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>header > span[class*=star]</expression>
+					<column name="score" type="string" find="\d+">
+						<attrname>class</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>header > span.main-meta</expression>
+					<column name="publishDate" type="string"></column>
+				</selector>
+				<selector>
+					<expression>div.main-bd > div#link-report > div[property]</expression>
+					<column name="content" type="string"></column>
+				</selector>
+				<selector>
+					<expression>div.main-bd > div.main-author </expression>
+					<column name="fromTerminal" type="string"></column>
+				</selector>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/review/\w+/$</pattern>
+</root>

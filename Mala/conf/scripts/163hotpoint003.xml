@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>c_163_basic_info</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div#epContentLeft</expression>
+			<selector>
+				<expression>h1</expression>
+				<column name="title" type="string"></column>
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_163_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.post_comment_tiecount > a</expression>
+				<column name="commentCount" type="string"></column>
+			</selector>
+			<selector>
+				<expression>div.post_comment_joincount> a</expression>
+				<column name="joinCount" type="string"></column>
+				<column name="commentUrl" type="string">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>a#ne_article_source</expression>
+				<column name="sourceSiteName" type="string"></column>
+			</selector>
+			<selector>
+				<expression>div.post_body</expression>
+				<column name="content" type="string"></column>
+			</selector>
+			<selector>
+				<expression>div.post_time_source</expression>
+				<column name="publishDateTime" type="string" nodenum="0" replace=" {2,}|　来源:|\t\n"></column>
+			</selector>
+			<selector>
+				<expression>span.ep-editor</expression>
+				<column name="epEditor" type="string" replace="责任编辑："></column>
+			</selector>
+			<selector>
+				<expression>div.ep-source > span.left</expression>
+				<column name="author" type="string" nodenum="1" replace=".*作者："></column>
+				<!-- <column type="URL" referer="entityId">
+					<formatter>
+						<template>http://sdk.comment.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/{newsId}?ibc=jssdk&amp;callback=tool1001350203379859527_1480572953846&amp;_={timestamp}</template>
+						<ref replace="\.html|.*/" value="" tempdata="true" urlencode="1">url</ref>
+					</formatter>
+				</column> -->
+				
+				<column name="getDateTime" type="DATE"></column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^http://(\w+\.)+163\.com/\d{2}/\d{4}/\d{2}/\w+\.html$</pattern>
+</root>

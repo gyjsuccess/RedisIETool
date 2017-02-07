@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 网页布局如：http://edu.sina.com.cn/ischool/2016-12-08/doc-ifxypipt0569078.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<selector>
+			<expression>div.main_content</expression>
+			<selector>
+				<expression>h1#main_title</expression>
+				<column name="title" type="string"></column>	<!-- 文章标题 -->	
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_SINA_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div#page-tools > span.time-source</expression>
+				<selector>
+					<expression>span.titer</expression>
+					<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+					<column name="getDateTime" type="DATE"></column>
+				</selector>
+				<selector>
+					<expression>span#media_name|span.source</expression>
+					<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div#page-tools > div >  span.page-tool-i.page-tool-c > span#commentCount1</expression>
+				<column name="commentCount" type="string" replace="评论|,|，"></column><!-- 评论数(动态) -->
+			</selector>
+			
+			<selector>
+				<expression>div.content_wrappr > div.content_wrappr_left</expression>
+				<selector>
+					<expression>div#artibody</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+					<selector>
+						<expression whole="1">div img[src],div img[alt]</expression>						
+						<column name="picAndName" type="picTitleJsonArr">
+							<attrname>src</attrname>
+						
+						</column>	<!-- 图片和标题 -->
+					</selector>
+					<selector>
+						<expression>p[style*=text-align]</expression>
+						<column name="epEditor" type="string" replace="责任编辑：" ></column>	<!-- 责任编辑 -->　
+					</selector>			
+				</selector>
+				<selector>
+					<expression whole="1">div.content-bottom > p.art_keywords > a</expression>
+					<column name="tag" type="keywords" replace="标签:" ></column>	<!-- 标签 -->					
+				</selector>				
+			</selector>			
+		</selector>
+	</template>
+		
+	<!-- 网页布局如：http://travel.sina.com.cn/hotels/news/2016-12-12/detail-ifxypipt1029143.shtml
+				http://finance.sina.com.cn/china/2016-12-15/doc-ifxytqav9326590.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div.wrap-inner</expression>
+			<selector>
+				<expression>div.page-header > h1</expression>
+				<column name="title" type="string"></column>	<!-- 文章标题 -->	
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_SINA_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.page-info</expression>
+				<selector>
+					<expression>span.time-source</expression>
+					<column name="publishDateTime" type="date" find="\d+年\d+月\d+日\s*(\d+:?)+"></column>	<!-- 出版时间 -->
+					<column name="getDateTime" type="DATE"></column>				
+					<column name="sourceSiteName" type="string" find=":\d+\s*[\u4E00-\u9FA5]+" replace=":\d+\s*"></column>	<!-- 来源 -->
+				</selector>	
+				<selector>
+					<expression>div.page-tools span#commentCount1</expression>
+					<column name="commentCount" type="string" nodenum="0" findall="[\dW]+" replace="W" value="000"></column><!-- 评论数(动态) -->
+				</selector>		
+			</selector>
+			<selector>
+				<expression>div#articleContent > div.left</expression>
+				<selector>
+					<expression>div#artibody</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+					<selector>
+						<expression>p.article-editor</expression>
+						<column name="epEditor" type="string" replace="责任编辑：" ></column>	<!-- 责任编辑 -->　
+					</selector>
+					<selector>
+						<expression whole="1">div img[src],div img[alt],div span.img_descr</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+					</selector>
+				</selector>
+				<selector>
+					<expression>p.article-editor</expression>
+					<column name="epEditor" type="string" replace="责任编辑：" ></column>	<!-- 责任编辑 -->　
+				</selector>
+				<selector>
+					<expression whole="1">div.article-info > div.article-keywords > a</expression>
+					<column name="tag" type="keywords" replace="文章关键词：" ></column>	<!-- 标签 -->	
+				</selector>				
+			</selector>		
+		</selector>		
+	</template>	
+		
+	<!-- 网页布局如：http://sports.sina.com.cn/china/other/2016-12-15/doc-ifxytqec0920290.shtml -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		
+		<selector>
+			<expression>div.blkContainerPblk</expression>
+			<selector>
+				<expression>div.blkContainerSblk</expression>
+				<selector>
+					<expression>h1#artibodyTitle</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->			
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_SINA_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.artInfo</expression>
+					<selector>
+						<expression>span#pub_date</expression>
+						<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+						<column name="getDateTime" type="DATE"></column>
+					</selector>
+					<selector>
+						<expression>span#media_name</expression>
+						<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+					</selector>			
+				</selector>
+				<selector>
+					<expression>div#artibody</expression>
+					<column name="content" type="string"></column>	<!-- 文章内容 -->
+					<selector>
+						<expression whole="1">div img[src],div img[alt]</expression>
+						<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+					</selector>
+				</selector>
+				<selector>
+					<expression whole="1">p.art_keywords > a</expression>
+					<column name="tag" type="keywords" replace="文章关键词：" ></column>	<!-- 标签 -->					
+				</selector>		
+			</selector>
+			<selector>
+				<expression>div#J_Comment_Wrap #J_Post_Box_Count > a</expression>
+				<selector>
+					<expression>span:nth-child(1)</expression>
+					<column name="commentCount" type="string" replace="评论|,|，"></column><!-- 评论数(动态) -->
+				</selector>
+				<selector>
+					<expression>span:nth-child(2)</expression>
+					<column name="joinCount" type="string" replace=",|，"></column><!-- 参与人数(动态) -->
+				</selector>				
+			</selector>			
+		</selector>
+		
+	</template>
+	<pattern>^http://(\w+\.){1,2}sina\.com\.cn(/\w+)+(-\d+){2}/((doc)|(detail))-\w+\.shtml$</pattern>
+</root>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>	
+		<contentfilter increment="2" repeatstore="HASH_4_PENGPAI_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.newscontent</expression>
+			<selector>
+				<expression>h1.news_title</expression>
+				<column name="title" type="string"></column>	<!-- 文章标题 -->
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!--参与人数（动态） -->				
+				<column name="getDateTime" type="DATE"></column>
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_PENGPAI_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>			
+			</selector>
+			<selector>
+				<expression>div.news_about</expression>
+				<selector>
+					<expression>p:first-child</expression>
+					<column name="author" type="string" replace="澎湃新闻记者 |实习生"></column>
+				</selector>
+				<selector>
+					<expression>p:nth-child(2)</expression>
+					<column name="publishDateTime" type="date" find=".*\s+来源" replace="\s+来源"></column>	<!-- 出版时间 -->
+					<column name="sourceSiteName" type="string" find="来源：.*" replace="来源："></column>	<!-- 来源 -->			
+				</selector>				
+			</selector>
+			<selector>
+				<expression>div.news_txt</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">div img[src],div span</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div.news_editor</expression>
+				<column name="epEditor" type="string" find="责任编辑：\s*[\u4E00-\u9FA5]+" replace="责任编辑：\s*|澎湃新闻.*" ></column>	<!-- 责任编辑 -->　
+			</selector>
+			<selector>
+				<expression>div.news_keyword</expression>
+				<column name="tag" type="string" replace="关键词 >>" ></column>	<!-- 责任编辑 -->				　
+			</selector>
+			<selector>
+				<expression>div.news_love > div.nbgbox > a#zan</expression>
+				<column name="joinCount" type="string"></column>			<!-- 参与人数(动态) -->
+			</selector>
+			<selector>
+				<expression>div.news_tit3 > a > span</expression>
+				<column name="commentCount" type="string" replace="\（|\）"></column><!-- 评论数(动态) -->
+			</selector>
+		</selector>
+	</template>	
+	<pattern>^http://www\.thepaper\.cn/newsDetail_forward_\d+$</pattern>
+</root>

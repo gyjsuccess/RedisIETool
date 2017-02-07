@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>	<!-- 文章内容以及作者信息等 -->
+		<collectname>dacheng_article_info_collect</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="1" repeatstore="HASH_4_DACHENG_ARTICLE_REPEAT">
+			<filter>all</filter>
+		</contentfilter>
+		<onlypage find="\d+\.htm" replace="[^0-9]">1</onlypage>
+		<selector>
+			<expression>#ct</expression>
+			<selector>
+				<expression>h1 > a#thread_subject</expression>
+				<column name="object_title" type="string"></column>   <!-- 文章标题 -->
+				<!-- <column name="object_id" type="ID">   文章ID
+				</column> -->
+				<column name="object_url" type="string" >  <!-- 文章链接 -->
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+
+			<selector>
+				<expression>div#postlist > :first-child > table.plhin > tbody >
+					tr:first-child</expression>	<!-- 作者/内容/发表时间/访问数/回复数 -->
+				<selector>
+					<expression>
+						td.pls > div.favatar > div.author_box > div:nth-child(2) > a     <!-- 普通帖子 -->
+						| td > div.pct.ptm.actbox > div.pbm.ptm.cl > div.spi > dl >
+						dd.avat > span:nth-child(2) > a
+					</expression>	<!-- 活动帖子 -->
+					<column name="object_author" type="string"></column>  <!-- 作者 -->
+				</selector>
+
+				<selector>
+					<expression>
+						td:nth-child(2) > div.post_t > div.authi.z	<!-- 普通帖子 -->
+						| td:first-child > div.post_t.gray > div.authi.z
+					</expression>	<!-- 活动帖子 -->
+					<selector>
+						<expression>span.tm > em</expression>
+						<column name="public_datetime" type="date"></column>  <!-- 发帖时间 -->
+					</selector>
+
+					<selector>
+						<expression>span.check > strong.lblue</expression>
+						<column name="brow_count" type="string"></column>  <!-- 点击量 -->
+					</selector>
+
+					<selector>
+						<expression>span.reply > strong.lblue</expression>
+						<column name="reply_count" type="string"></column>  <!-- 回复量 -->
+					</selector>
+				</selector>
+
+				<selector>
+					<expression>
+						td > div.pct.ptm > div.pcb > div.t_fsz td.t_f  <!-- 普通帖子 -->
+						| td > div.pct.ptm.actbox > table > tbody > tr > td.t_f
+					</expression>  <!-- 活动帖子 -->
+					<column name="object_content" type="string"></column>  <!-- 文章内容 -->
+				</selector>
+
+			</selector>
+		</selector>
+	</template>
+
+	<template>	<!-- 评论相关信息 -->
+		<collectname>dacheng_reply_info_collect</collectname>
+		<tempdata>url|object_id</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="2">
+			<filter rownotnullcol="object_content">null</filter>
+			<endnext type="date" ordertype="1">reply_datetime</endnext>
+		</contentfilter>
+		<removefirstrow  find="\d+\.htm" replace="[^0-9]">true</removefirstrow>
+		<savepagenum replace=".*t-\d+-|\.htm" findall4url=".*t-\d+-|\.htm"  repeatstore="HASH_4_DACHENG_ARTICLE_REPEAT">o</savepagenum>
+		<selector>
+			<expression>#ct > div#postlist > div~div > table.plhin > tbody >
+				tr:first-child</expression>
+			<column name="parent_object_id" type="string" >
+				<formatter>
+					<template>{objectId}</template>
+					<ref tempdata="true">object_id</ref>  
+				</formatter>
+			</column>
+			<column name="object_id" type="ID" replace=".*">
+			</column>
+			<selector>
+				<expression>td.pls > div.favatar > div.author_box > div:nth-child(2)
+					> a</expression>
+				<column name="reply_person" type="string"></column>  <!-- 评论人 -->
+			</selector>
+
+			<selector>
+				<expression>td:nth-child(2) > div.p_t.cl</expression>
+				<selector>
+					<expression>div.z > span.gray.mlm > em</expression>
+					<column name="reply_datetime" type="date"></column>  <!-- 评论时间 -->
+				</selector>
+
+				<selector>
+					<expression>div.y > a > b</expression>
+					<column name="reply_floor" find="\d+" type="string"></column>  <!-- 楼层 -->
+				</selector>
+			</selector>
+
+			<selector>
+				<expression>td:nth-child(2) > div.pct.ptm > div.pcb</expression>
+				<selector>
+					<expression>div.t_fsz > table td.t_f
+						| div.pcbs > table > tbody > tr > td.t_f</expression>
+					<column name="object_content" type="string"></column>  <!-- 评论内容 -->
+				</selector>
+			</selector>
+
+		</selector>
+
+		<selector>
+			<expression>div.pgs.mtm.mbm.cl > div.page_box.y > div.pgb > a.nxt</expression><!-- 
+				评论下一页 -->
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+
+	</template>
+	<pattern>^http://mycd\.qq\.com/t-\d+-\d+\.htm$</pattern>   <!-- 首页包含内容与评论 ,只处理首页内容 -->
+</root>
+
+
+
+
+
+
+
+
+

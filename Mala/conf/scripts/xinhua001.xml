@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>a[href]</expression>
+			<column type="URL" filter="^http://news\.xinhuanet\.com(/\w+)+(-\d+)+(/\w+)+\.htm|http://sike\.news\.cn(/\w+)+\.html$" retain="1" 
+				repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT" crawlrepeat="0">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>			 
+	<pattern>^http://(\w+\.)*((news\.cn)|(xinhuanet\.com))(/\w*)+((air)|(tank)|(\.htm))*$</pattern>
+</root>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>tieba_article_info_collect</collectname>		
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="1" repeatstore="HASH_4_TIEBA_ARTICLE_REPEAT">
+			<filter>all</filter>
+		</contentfilter>
+		<onlypage replace=".*pn=">1</onlypage>
+		
+		<selector>
+			<expression>#container > div.content</expression>
+			<selector>
+				<expression>#pb_content > div.left_section</expression>
+				<selector>
+					<expression>#j_core_title_wrap > div.core_title > h1</expression>
+					<column name="object_title" type="string"></column>   <!-- 文章标题 -->
+					<column name="object_url" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>								
+				</selector>
+				<selector>
+					<expression>#j_p_postlist > div.l_post.j_l_post.l_post_bright.noborder</expression>
+					<selector>
+						<expression>div.d_author > ul > li.d_name > a</expression>
+						<column name="object_author" type="string"></column>  <!-- 作者 -->
+					</selector>
+					<selector>
+						<expression>div.d_post_content_main.d_post_content_firstfloor > div.core_reply.j_lzl_wrapper > div.core_reply_tail > ul.p_tail > li:nth-child(2) > span</expression>
+						<column name="public_datetime" find="\d.+" type="string"></column>  <!-- 发帖时间 -->
+					</selector>
+					<selector>
+						<expression>div.d_post_content_main.d_post_content_firstfloor > div.p_content.p_content_icon_row1.p_content_nameplate</expression>
+						<column name="object_content" type="string"></column>  <!-- 文章内容 -->
+					</selector>
+				</selector>	
+			</selector>
+			<selector>
+				<expression>#thread_theme_5 > div.l_thread_info > ul > li:nth-child(2) > span:nth-child(1)</expression>
+				<column name="reply_count" find="\d+" type="string"></column>  <!-- 回复量 -->
+				<column name="brow_count" type="constant" value="0"></column>  <!-- 点击量 -->
+			</selector>
+		
+		</selector>		
+	</template>
+	
+	<!-- ul.j_lzl_m_w > li.lzl_single_post.j_lzl_s_p 回复的回复-->
+	<template>
+		<collectname>tieba_reply_info_collect</collectname>
+		
+		<tempdata>url|object_id</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="2" repeatstore="HASH_4_TIEBA_ARTICLE_REPEAT">
+			<filter rownotnullcol="object_content">null</filter>
+			<endnext type="date" ordertype="1">reply_datetime</endnext>
+		</contentfilter>
+		<removefirstrow replace=".*pn=">true</removefirstrow>
+		<savepagenum replace=".*pn=" findall4url="http://tieba\.baidu\.com/p/\d+" repeatstore="HASH_4_TIEBA_ARTICLE_REPEAT">o</savepagenum>
+		
+		<selector>
+			<expression>#j_p_postlist > div[data-field].l_post.j_l_post.l_post_bright</expression>
+				<selector>
+					<expression>div.d_author > ul > li.d_name > a</expression>
+					<column name="object_id" type="ID">
+					</column>
+					<column name="parent_object_id" type="string" >
+						<formatter>
+							<template>{objectId}</template>
+							<ref tempdata="true">object_id</ref>  
+						</formatter>
+					</column>
+					<column name="object_url" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref replace="\?pn=\d+" tempdata="true" value="">url</ref>
+						</formatter>
+					</column>
+					<column name="reply_person" type="string"></column>  <!-- 评论人 -->
+					<column name="reply_person_url" type="string">
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.d_post_content_main > div.core_reply.j_lzl_wrapper > div.core_reply_tail > ul.p_tail > li:nth-child(2) > span</expression>
+					<column name="reply_datetime" replace="时间：" type="date"></column>  <!-- 评论时间 -->
+				</selector>
+				<selector>
+					<expression>div.d_post_content_main > div.core_reply.j_lzl_wrapper > div.core_reply_tail > ul.p_tail > li:nth-child(1) > span</expression>
+					<column name="reply_floor" type="string"></column>  <!-- 评论内容 -->						
+				</selector>				
+				<selector>
+					<expression>div.d_post_content_main > div.p_content.p_content_nameplate</expression>
+					<column name="object_content" type="string"></column>  <!-- 评论内容 -->						
+				</selector>	
+		</selector>	
+		
+		<selector>
+			<expression>##thread_theme_5 > div.l_thread_info > ul > li.l_pager.pager_theme_4.pb_list_pager > a:nth-last-child(2)</expression>
+			<column type="URL">											<!-- 评论页下一页 -->
+				<attrname>href</attrname>
+			</column>				
+		</selector>	
+	</template>
+	<pattern>^http://bbs\.tianya\.cn/post-63-\d{6}-\d+\.shtml$</pattern>	
+	
+</root>

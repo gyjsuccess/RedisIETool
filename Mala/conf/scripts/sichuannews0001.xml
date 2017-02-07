@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div.container</expression>
+			<selector>		
+				<expression>nav > section.nav-port a[href]</expression>	<!-- 导航链接 -->
+				<column type="URL" filter="^http://\w[^w^t]\w*\.newssc\.org/(2009bwyc/)?$" retain="1">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>main</expression>
+				<column type="URL" filter="^http://\w+\.newssc\.org((/system)|(/news))(/\w+)+\.htm(l)?$" retain="1" 
+					repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT" crawlrepeat="0">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			
+			</selector>
+		</selector>		
+	</template>
+	<pattern>^http://www\.newssc\.org/$</pattern>
+</root>

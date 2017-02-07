@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_doulists</collectname>
+		<tempdata>url</tempdata>
+		<initdata>entityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<selector>
+			<expression>div#content div.article > div > div > ul</expression>
+			<selector>
+				<expression>li > ul > li:nth-child(1) > a</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="name" type="string"></column>
+				<column name="doulistUrl" type="string">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>li > ul > li:nth-child(1) > span</expression>
+				<column name="doulistCount" type="string" replace="[^0-9]"></column>
+			</selector>
+			<selector>
+				<expression>li > ul > li:nth-last-child(1) > span</expression>
+				<column name="updateDate" type="string" replace="更新"></column>
+			</selector>
+			<selector>
+				<expression>li > ul > li:nth-last-child(1) > a</expression>
+				<column name="author" type="string"></column>
+				<column name="authorUrl" type="string">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+		</selector>
+		<selector>
+			<expression>div.paginator > span.next > a</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^123https://movie\.douban\.com/subject/\w+/doulists\??.*</pattern>
+</root>

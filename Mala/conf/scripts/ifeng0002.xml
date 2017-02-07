@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+			<selector>
+				<expression>a[href]</expression>
+				<column name="entityId" type="ID">   文章ID
+				</column>			
+				<column type="URL" filter="^http://(\w+\.){1,2}ifeng\.com(/\w+)+\.shtml$" retain="1" 
+					repeatstore="HASH_4_IFENG_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>		
+	</template>
+	<pattern>^http://[^w](\w*\.)+ifeng\.com/$</pattern>
+</root>

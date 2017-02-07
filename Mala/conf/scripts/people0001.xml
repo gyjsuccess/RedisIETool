@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+						
+		<selector>
+			<expression>nav > div.w1000 > span > a[href]</expression>
+			<column type="URL" filter="^http://(\w+\.)people\.com\.cn/((stock/)|(bank))?$" retain="1">	<!-- 获取导航菜单中的连接 -->
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		
+		<selector>
+			<expression>section.w1000</expression>
+			<!-- <column name="entityId" type="ID">   文章ID
+			</column> -->			
+			<column type="URL" filter="^http://(\w+\.)people\.com\.cn(/\w+)+-\d+\.html$" retain="1" 
+				repeatstore="HASH_4_PEOPLE_ARTICLE_REPEAT" crawlrepeat="0">	<!-- 文章链接 -->
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>		
+		</selector>		
+	</template>
+	<pattern>^http://www\.people\.com\.cn/$</pattern>	<!-- 人民网首页 -->
+</root>

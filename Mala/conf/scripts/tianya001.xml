@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<selector>
+			<expression>#main > div.mt5 > table > tbody > tr > td.td-title > a</expression>
+			<column name="object_id" type="ID">   <!-- 文章ID -->
+				<repeatkey find="http://bbs\.tianya\.cn/post-\d+-\d+" repeatstore="HASH_4_TIANYA_ARTICLE_ID"></repeatkey>
+			</column>
+			<column type="URL" repeatstore="HASH_4_TIANYA_ARTICLE_REPEAT" referer="object_id">	<!-- 标题列表 -->
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		<selector>
+			<expression>#main > div.short-pages-2.clearfix > div > a:nth-last-child(1)</expression> 
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://bbs\.tianya\.cn/list\.jsp\?item=\d+(&amp;nextid=\d+)?</pattern>
+</root>

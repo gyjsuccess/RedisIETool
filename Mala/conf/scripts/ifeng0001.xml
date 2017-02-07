@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>				
+		
+		<selector>
+			<expression>div.wrap.NavMCon > ul.clearfix a[href]</expression>
+			<column type="URL" filter="^http://(\w+\.)+ifeng\.com/$" retain="1">	<!-- 获取导航菜单中的连接 -->
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		<selector>
+			<expression>div.NavV.wrap > ul.clearfix a[href]</expression>
+			<column type="URL" filter="^http://(\w+\.)+ifeng\.com/$" retain="1">	<!-- 获取导航菜单中的连接 -->
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		
+		<selector>
+			<expression>div.wrap.clearfix a[href]</expression>
+			<column name="entityId" type="ID">   文章ID
+			</column>			
+			<column type="URL" filter="^http://(\w+\.){1,2}ifeng\.com(/\w+)+\.shtml$" retain="1" 
+				repeatstore="HASH_4_IFENG_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.ifeng\.com/$</pattern>
+</root>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<selector>
+			<expression>#forumleftside > dl:nth-child(3) > dd > a:first-of-type</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://mycd\.qq\.com/forum\.php\?mod=guide$</pattern>
+</root>

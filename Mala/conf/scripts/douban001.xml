@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<selector>
+			<expression>div#content > div > div.article > table:nth-child(9) > tbody > tr > td > a</expression>
+			<column type="URL">
+				<formatter>
+					<template>{self}?type=R</template>
+				</formatter>
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/tag/$</pattern>
+</root>

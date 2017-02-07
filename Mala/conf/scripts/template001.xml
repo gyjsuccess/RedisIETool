@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<datatype>html</datatype>
+		<selector>
+			<expression>div#category_64 > table > tbody > tr > td:nth-child(2) > h2 > a</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.mala\.cn/forum\.php\?gid=64$</pattern>
+</root>

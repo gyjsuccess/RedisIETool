@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<collectname>mala_article_info_collect</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey find=".*thread-\d+-"></repeatkey>
+		<contentfilter increment="1" repeatstore="HASH_4_MALA_ARTICLE_REPEAT">
+			<filter>all</filter>
+		</contentfilter>
+		<onlypage replace=".*thread-\d+-|-.*">1</onlypage>
+		<selector>
+			<expression>div#ct</expression>
+			<selector>
+				<expression>div#postlist > table:nth-child(1) > tbody > tr</expression>
+				<selector>
+					<expression>td.pls.ptn.pbn > div</expression>
+					<selector>
+						<expression>span:nth-child(2)</expression>
+						<column name="viewCount" type="integer"></column>
+						<column name="getDate" type="DATE"></column>
+					</selector>
+					<selector>
+						<expression>span:nth-child(5)</expression>
+						<column name="replyCount" type="integer"></column>
+					</selector>
+				</selector>
+				<selector>
+					<expression>td.plc.ptm.pbn.vwthd > h1 > span > a</expression>
+					<column name="entityName" type="string"></column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+					<column name="articleId" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true" replace=".*thread-|-.*" value="">url</ref>
+						</formatter>
+					</column>
+					<!-- <column type="URL">
+						<formatter>
+							<template>http://www.mala.cn/forum.php?mod=viewthread&amp;tid={id}&amp;extra=&amp;ordertype=1</template>
+							<ref>articleId</ref>
+						</formatter>
+					</column> -->
+				</selector>
+			</selector>
+			<selector>
+				<expression>div#postlist > div:nth-child(3) > table > tbody > tr:nth-child(1)|div#postlist > div:nth-child(4) > table > tbody > tr:nth-child(1)</expression>
+				<selector>
+					<expression>td.pls >div > div.pi > div.authi > a.xw1</expression>
+					<column name="author" type="string"></column>
+					<column name="spaceUrl" type="URL" referer="articleId" repeatstore="HASH_4_MALA_USER_REPEAT">
+						<formatter>
+							<template>{self}&amp;do=profile</template>
+						</formatter>
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>td.plc > div.pct > div</expression>
+					<column name="content" type="string"></column>
+				</selector>
+				<selector>
+					<expression>td.plc > div.pi > div.pti > div.authi > em</expression>
+					<column name="publishDate" type="date" replace="[^:\-\d ]"></column>
+				</selector>
+			</selector>
+		</selector>
+	</template>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<collectname>mala_reply_info_collect</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey find=".*thread-\d+-"></repeatkey>
+		<contentfilter increment="2">
+			<filter rownotnullcol="replyContent">null</filter>
+			<endnext type="date" ordertype="1">replyDate</endnext>
+		</contentfilter>
+		<removefirstrow replace=".*thread-\d+-|-.*">true</removefirstrow>
+		<savepagenum replace=".*thread-\d+-|-.*" findall4url=".*thread-\d+-|-.*" repeatstore="HASH_4_MALA_ARTICLE_REPEAT">o</savepagenum>
+		<selector>
+			<expression>div#postlist > div > table > tbody > tr:nth-child(1)</expression>
+			<selector>
+				<expression>td.pls > div > div.pi > div.authi > a.xw1|td.pls > div > div.pi > a > em</expression>
+				<column name="replyAuthor" type="string"></column>
+				<column name="getDate" type="DATE"></column>
+				<column name="articleId" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true" replace=".*thread-|-.*" value="">url</ref>
+					</formatter>
+				</column>
+				<column name="spaceUrl" type="URL" referer="articleId" filter="javascript:;" repeatstore="HASH_4_MALA_USER_REPEAT">
+					<formatter>
+						<template>{self}&amp;do=profile</template>
+					</formatter>
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>td.plc</expression>
+				<selector>
+					<expression>div.pi > div.pti > div.authi > em</expression>
+					<column name="replyDate" type="date" replace="[^:\-\d ]"></column>
+				</selector>
+				<selector>
+					<expression>div.pct > div</expression>
+					<column name="replyContent" type="string"></column>
+				</selector>
+				<selector>
+					<expression>div.pi > strong > a > em</expression>
+					<column name="floorNum" type="string"></column>
+				</selector>
+			</selector>
+		</selector>
+		<selector>
+			<expression>div#ct > div.pgs.mtm.mbm.cl > div > a.nxt</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+				<incrementdiscard replace=".*thread-\d+-|-.*">1</incrementdiscard>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://www\.mala\.cn/thread-\d+-\d+-\d+\.html$</pattern>
+</root>

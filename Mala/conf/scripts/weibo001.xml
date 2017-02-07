@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div.m_wrap > ul.pt_ul > li[href]</expression>
+			<column type="URL" filter="^http://weibo\.com(/\w+)+\?(\w+=\w+&amp;?)+$" retain="1" 
+				repeatstore="HASH_4_WEIBO_ARTICLE_REPEAT" crawlrepeat="0">	<!-- 文章链接 -->
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>		
+	</template>	
+	<pattern>^http://weibo\.com/\?category=\d+$</pattern>
+</root>

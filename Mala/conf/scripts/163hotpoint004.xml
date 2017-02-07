@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>c_163_count_info</collectname>
+		<tempdata>url</tempdata>
+		<initdata>entityId</initdata>
+		<datatype>jsonp</datatype>
+		<datatypereplace>\w+\(|\);</datatypereplace>
+		<repeatkey></repeatkey>
+		<selector>
+			<column name="cmtAgainst" type="integer"><attrname>cmtAgainst</attrname></column>
+			<column name="cmtVote" type="integer"><attrname>cmtVote</attrname></column>
+			<column name="rcount" type="integer"><attrname>rcount</attrname></column>
+			<column name="tcount" type="integer"><attrname>tcount</attrname></column>
+			<column name="getDateTime" type="DATE"></column>
+		</selector>
+	</template>
+	<pattern>^http://sdk\.\w+\.163\.com/api/v\d+/products/\w+/threads/\w+\?ibc=\w+&amp;callback=\w+(&amp;_=\d+)?$</pattern>
+</root>

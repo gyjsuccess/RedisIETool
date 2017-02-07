@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div.navCont a[href]</expression> <!-- 获取导航链接 -->
+			<column type="URL" filter="^http://(\w+\.)*((news\.cn)|(xinhuanet\.com))(/\w*)+((air)|(tank)|(\.htm))*$" retain="1">
+				<attrname>href</attrname>
+			</column>		
+		</selector>
+		
+		<selector>
+			<expression>div#headLine a[href],div#section02 a[href],div#section03 a[href]</expression>	<!-- 获取文章链接 -->
+			<column type="URL" filter="^http://news\.xinhuanet\.com(/\w+)+(-\d+)+(/\w+)+\.htm|http://sike\.news\.cn(/\w+)+\.html$" retain="1" 
+				repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT" crawlrepeat="0">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		
+		</selector>		
+	</template>
+	<pattern>^http://www\.xinhuanet\.com/$</pattern>
+</root>

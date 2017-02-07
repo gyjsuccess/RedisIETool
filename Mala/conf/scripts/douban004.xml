@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_short_comments</collectname>
+		<tempdata>url</tempdata>
+		<initdata>entityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<contentfilter increment="2">
+			<filter rownotnullcol="content">null</filter>
+			<endnext type="date" ordertype="1">publishDate</endnext>
+		</contentfilter>
+		<selector>
+			<expression>div#comments > div.comment-item > div.comment</expression>
+			<selector>
+				<expression>h3 > span.comment-info</expression>
+				<selector>
+					<expression>a</expression>
+					<column name="getDateTime" type="DATE"></column>
+					<column name="peopleNickName" type="string"></column>
+					<column name="peopleSpace" type="string">
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>span[title][class*=star]</expression>
+					<column name="score" type="string" find="\d+">
+						<attrname>class</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>span:last-of-type</expression>
+					<column name="publishDate" type="string">
+					</column>
+				</selector>
+			</selector>
+			<selector>
+				<expression>p</expression>
+				<column name="content" type="string"></column>
+			</selector>
+		</selector>
+		<selector>
+			<expression>div#paginator > a.next</expression>
+			<column type="URL" referer="entityId" headerreferer="true">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^123https://\w+\.douban\.com/subject/\w+/comments.*</pattern>
+</root>

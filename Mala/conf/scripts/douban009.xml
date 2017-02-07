@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_celebrity_partners</collectname>
+		<tempdata>url</tempdata>
+		<initdata>celebrityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<selector>
+			<expression>div#content div.article > div > div.partners[id] > div.info</expression>
+			<selector>
+				<expression>h2 > a</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="pCelebrityName" type="string"></column> <!-- 合作者姓名 -->
+				<column name="pCelebrityUrl" type="string"> <!-- 合作者网址 -->
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>ul > li:nth-child(1)</expression>
+				<column name="pCelebrityJob" type="string"></column> <!-- 职业 -->
+			</selector>
+			<selector>
+				<expression>ul > li:nth-child(3)</expression>
+				<column name="pCelebrityFavoriteNum" type="string" replace="[^0-9]"></column> <!-- 收藏人数 -->
+			</selector>
+			<selector>
+				<expression>ul > li:nth-child(2)</expression>
+				<column name="pSubjectNum" type="string" find="\(\d+\)：" replace="[^0-9]"></column> <!-- 合作作品数 -->
+				<column name="pSubjects" type="htmlsource"></column> <!-- 合作作品 -->
+			</selector>			
+		</selector>
+		<selector>
+			<expression>div.paginator > span.next >a</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^https://movie\.douban\.com/celebrity/\w+/partners\??.*</pattern>
+</root>

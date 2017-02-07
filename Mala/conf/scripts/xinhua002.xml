@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<!-- 网页布局如：http://news.xinhuanet.com/politics/2016-09/27/c_1119635059.htm -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div#article</expression>
+			<selector>
+				<expression>h1#title</expression>
+				<column name="title" type="string"></column>	<!-- 文章标题 -->	
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_XINHUA_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.info > div.source</expression>
+				<selector>
+					<expression>span.time</expression>
+					<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+				</selector>
+				<selector>
+					<expression>span > em#source</expression>
+					<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div.article</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">p img[src]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div#articleEdit > span.editor</expression>
+				<column name="epEditor" type="string" replace="\[责任编辑: |\]" ></column>	<!-- 责任编辑 -->
+				<column name="getDateTime" type="DATE"></column>
+			</selector>
+		
+		</selector>
+		
+	</template>
+	
+	<!-- 网页布局如：http://news.xinhuanet.com/politics/2016-12/14/c_1120111083.htm -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.main</expression>
+			<selector>
+				<expression>div.main_tit</expression>
+				<selector>
+					<expression>h1#title</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_XINHUA_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.info</expression>
+					<selector>
+						<expression>span#pubtime</expression>
+						<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+					</selector>
+					<selector>
+						<expression>span#source</expression>
+						<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+					</selector>					
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div#content</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">p img[src]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div.share</expression>
+				<column name="epEditor" type="string" replace="\[责任编辑：|\]" ></column>	<!-- 责任编辑 -->
+				<column name="getDateTime" type="DATE"></column>
+			</selector>			
+		</selector>		
+	</template>
+	
+	
+	<!-- 网页布局如：http://sike.news.cn/statics/sike/posts/2016/12/219510939.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		
+		<selector>
+			<expression>body#totop</expression>
+			<selector>
+				<expression>div.img_cot > div.img_zz</expression>
+				<selector>
+					<expression>h3</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->	
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_XINHUA_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.tx80 > p.thename</expression>
+					<column name="author" type="string"></column>	<!-- 作者 -->
+				</selector>
+			
+			</selector>
+			
+			<selector>
+				<expression>div.pageall > div.bgall > div.container2</expression>
+				<selector>
+					<expression>p.thedate2</expression>
+					<column name="publishDateTime" nodenum="0" type="date" find="\d+/\d+\s+\d+:\d+"></column>	<!-- 出版时间 -->
+					<column name="getDateTime" type="DATE"></column>
+				</selector>
+			</selector>
+			
+			<selector>
+				<expression>div.txt_zw</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression whole="1">div img[src],div img[alt]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>
+			</selector>
+			
+			<!-- <selector>
+				<expression>div.div_tjian</expression>
+				<column name="likeCount" type="string" find="\d+"></column>	点赞数，推荐数
+			</selector> -->
+			
+			<selector>
+				<expression>div.sharediv > div.fl</expression>
+				<column name="joinCount" type="string" find="\d+次阅读" replace="次阅读"></column>	<!-- 参与人数(动态) -->
+				<column name="commentCount" type="string" find="\d+次回应" replace="次回应"></column>	<!-- 评论数(动态) -->
+			</selector>			
+		
+		</selector>		
+		
+	</template>
+	
+	
+	<!-- 网页布局如：http://news.xinhuanet.com/video/sjxw/2016-12/08/c_129395777.htm -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<contentfilter increment="2" repeatstore="HASH_4_XINHUA_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.main</expression>
+			<selector>
+				<expression>div.header > div.title</expression>
+				<selector>
+					<expression>h1</expression>
+					<column name="title" type="string"></column>	<!-- 文章标题 -->	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->	
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_XINHUA_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>span.editor</expression>
+					<column name="epEditor" type="string" replace="编辑:|\（实习\）" ></column>	<!-- 责任编辑 -->
+				</selector>
+				<selector>
+					<expression>span.time</expression>
+					<column name="publishDateTime" type="date"></column>	<!-- 出版时间 -->
+					<column name="getDateTime" type="DATE"></column>
+				</selector>
+				<selector>
+					<expression>span.source > em#source</expression>
+					<column name="sourceSiteName" type="string"></column>	<!-- 来源 -->
+				</selector>
+			</selector>
+			<selector>
+				<expression>div.article</expression>
+				<column name="content" type="string"></column>	<!-- 文章内容 -->
+				<selector>
+					<expression>p img[src]</expression>
+					<column name="picAndName" type="picTitleJsonArr"></column>	<!-- 图片和标题 -->
+				</selector>			
+			</selector>
+			<selector>
+				<expression>div.like-wrap > div.zan</expression>
+				<column name="joinCount" type="string" find="\d+"></column>	<!-- 参与人数(动态) -->
+			</selector>		
+		</selector>		
+	</template>				 
+	<pattern>^http://news\.xinhuanet\.com(/\w+)+(-\d+)+(/\w+)+\.htm|http://sike\.news\.cn(/\w+)+\.html$</pattern>
+</root>

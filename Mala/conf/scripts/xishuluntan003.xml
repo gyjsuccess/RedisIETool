@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>xishu_article_info_collect</collectname>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<contentfilter increment="1" repeatstore="HASH_4_XISHU_ARTICLE_REPEAT">
+			<filter>all</filter>
+		</contentfilter>
+		<onlypage find="\d+-\d+\.html" replace="-\d+\.html">1</onlypage>
+		<selector>
+			<expression>#ct</expression>
+			<selector>
+				<expression>#postlist</expression>
+				<selector>
+					<expression>#thread_subject</expression>
+					<column name="object_title" type="string"></column>           <!-- 文章标题 -->
+					<column name="object_url" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column> 
+				</selector>
+				
+				<selector>
+					<expression>tr > td.pls.ptn.pbn > div > span:nth-child(2)</expression>
+					<column name="brow_count" type="string"></column>              <!-- 浏览量 -->
+				</selector>
+				
+				<selector>
+					<expression>tr > td.pls.ptn.pbn > div > span:nth-child(5)</expression>
+					<column name="reply_count" type="string"></column>             <!-- 回复量 -->
+				</selector>
+				
+				<selector>
+					<expression>div[style^=border]  div.pi > div.authi > a</expression>
+					<column name="author" type="string"></column>                 <!-- 作者 -->
+				</selector>
+			
+				<selector>
+					<expression>div[style^=border] div.authi > em</expression>
+					<column name="public_datetime" type="date" replace="发表于"></column>
+				</selector>                                                       <!-- 发帖时间 -->
+				
+				<selector>
+					<expression>div[style^=border] td.t_f</expression>
+					<column name="object_content" type="string" replace="(.*马上注册\sx)"></column>                <!-- 文章内容 -->
+				</selector>
+			</selector>
+		</selector>
+	</template>
+
+	<template>
+		<collectname>xishu_reply_info_collect</collectname>
+		<datatype>html</datatype>
+		<tempdata>url|object_id</tempdata>
+		<initdata>all</initdata>
+		
+		<contentfilter increment="2" repeatstore="HASH_4_XISHU_ARTICLE_REPEAT">
+			<filter rownotnullcol="object_content">null</filter>
+			<endnext type="date" ordertype="1">reply_datetime</endnext>
+		</contentfilter>
+		<removefirstrow find="\d+-\d+\.html" replace="-\d+\.html">true</removefirstrow>
+		<savepagenum find="\d+-\d+\.html" replace="-\d+\.html" findall4url=".*thread-\d+-|-\d+\.html"  repeatstore="HASH_4_XISHU_ARTICLE_REPEAT">o</savepagenum>
+		<selector>
+			<expression>div[style^=border]~div.comiis_vrx > table</expression>     <!-- 评论框 -->
+			<selector>
+				<expression>a.xw1</expression>
+				<column name="object_id" type="ID">                                    
+				</column>
+				<column name="parent_object_id" type="string" >
+					<formatter>
+						<template>{objectId}</template>
+						<ref tempdata="true">object_id</ref>  
+					</formatter>
+				</column>
+				<column name="object_url" type="string" >
+					<formatter>
+						<template>{url}</template>
+						<ref replace="-\d+-\d+\.html" tempdata="true" value="-1-1.html">url</ref>
+					</formatter>
+				</column>
+				<column name="reply_person" type="string"></column>                 <!-- 评论人 -->
+				<column name="reply_person_url" type="string">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>a[onclick^=setCopy]</expression>
+				<column name="reply_floor" type="string" replace="\#"></column>       <!-- 楼层 -->
+			</selector>
+			<selector>
+				<expression>div.authi>em</expression>                              <!-- 回复时间 -->
+				<column name="reply_datetime" type="date" replace="发表于"></column>
+			</selector>
+			<selector>
+				<expression>td.t_f</expression>
+				<column name="object_content" type="string"></column>                <!-- 回复内容 -->
+			</selector>   
+	    </selector>  
+		<selector>
+			<expression>div#ct>div>div>div>a.nxt</expression>
+			<column type="URL">    													<!-- 后一页 --> 
+				<attrname>href</attrname>       
+			</column>
+		</selector>  
+	</template>
+	<pattern>^http://bbs\.xishu365\.com/thread-\d+-\d+-\d+\.html$</pattern>
+</root>

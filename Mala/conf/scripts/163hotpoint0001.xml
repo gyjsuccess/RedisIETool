@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div.nav.clearfix > div.nav-con a[href]</expression>
+			<column type="URL" filter="^http://(\w+\.)+163\.com/$" retain="1">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+		<selector>
+			<expression>div.content a[href]</expression>
+			<column name="entityId" type="ID">   <!-- 文章ID -->
+			</column>
+			<column name="getType" type="constant" value="1"></column>
+			<column type="URL" filter="^http://(\w+\.)+163\.com/\d{2}/\d{4}/\d{2}/\w+\.html$" retain="1" 
+				repeatstore="HASH_4_163_ARTICLE_REPEAT" crawlrepeat="0" referer="entityId|getType">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>
+	<pattern>^http://(\w+\.)+163\.com/$</pattern>
+</root>

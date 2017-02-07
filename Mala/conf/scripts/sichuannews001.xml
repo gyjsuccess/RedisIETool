@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>a[href]</expression>			
+			<column type="URL" filter="^http://\w+\.newssc\.org((/system)|(/news))(/\w+)+\.htm(l)?$" retain="1" 
+				repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT" crawlrepeat="0">
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+	</template>
+	<!-- <pattern>^http://\w[^w^t]\w*\.newssc\.org/(2009bwyc/)?$</pattern> -->
+	<pattern>^http://\w[^w^t]\w*\.newssc\.org/$</pattern>
+</root>

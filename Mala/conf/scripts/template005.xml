@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<queuename>SEEDS_LIST_4_MALA_DOWNLOADER</queuename>
+		<collectname>mala_user_info_collect</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<!-- <contentfilter increment="1" repeatstore="HASH_4_MALA_USER_REPEAT">
+			<filter>all</filter>
+		</contentfilter> -->
+		<selector>
+			<expression>#ct > div.mn > div > div.bm_c > div</expression>
+			<selector>
+				<expression>div:nth-child(1) > h2</expression>
+				<column name="uname" type="string" nodenum="0"></column>
+				<column name="getDate" type="DATE"></column>
+				<selector>
+					<expression>span:nth-child(1)</expression>
+					<column name="uid" type="string" replace="\(UID: |\)"></column>
+				</selector>
+				<column name="spaceUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div:nth-child(1) > ul:nth-last-child(1)</expression>
+				<selector>
+					<expression>li:nth-child(1)</expression>
+					<column name="sex" type="string" nodenum="1"></column>
+				</selector>
+				<selector>
+					<expression>li:nth-child(2)</expression>
+					<column name="birthDay" type="string" nodenum="1"></column>
+				</selector>
+				<selector>
+					<expression>li:nth-child(3)</expression>
+					<column name="education" type="string" nodenum="1"></column>
+				</selector>
+			</selector>
+			<selector>
+				<expression>div:nth-last-child(2) > ul:nth-child(1) > li:nth-last-child(1) > span</expression>
+				<column name="ugroup" type="string"></column>
+			</selector>
+			<selector>
+				<expression>div:nth-last-child(2) > ul:nth-child(3) > li:nth-child(2)</expression>
+				<column name="registDate" type="string" nodenum="1"></column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^http://home\.mala\.cn/home\.php\?mod=space&amp;uid=\d+&amp;do=profile$</pattern>
+</root>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>json</datatype>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>subjects</expression>
+			<column name="entityId" type="ID">
+			</column>
+			<column type="URL" repeatstore="HASH_4_DBAN_ENTITY_REPEAT" crawlrepeat="1" referer="entityId">
+				<attrname>url</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>
+		<page>
+			<next replace=".*page_start=" maxpagenum="500">
+				<expression>+20</expression>
+				<key>page_start=</key>
+				<endpage replace=".*page_start=">20</endpage>
+			</next>
+		</page>
+	</template>
+	<pattern>^https://movie\.douban\.com/j/search_subjects\?type=(tv|movie)&amp;tag=.*&amp;sort=(time|rank)&amp;page_limit=20&amp;page_start=\d+$</pattern>
+</root>

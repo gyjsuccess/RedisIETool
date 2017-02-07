@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 网页布局如：http://culture.newssc.org/system/20161215/000731943.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>		
+		<contentfilter increment="2" repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.left > article</expression>
+			<selector>
+				<expression>h1</expression>
+				<column name="title" type="string"></column>	文章标题
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_SICHUANNEWS_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.note</expression>
+				<selector>
+					<expression>div.note-left</expression>
+					<selector>
+						<expression>span#pubtime_baidu</expression>
+						<column name="publishDateTime" type="date"></column>	出版时间
+						<column name="getDateTime" type="DATE"></column>
+					</selector>
+					<selector>
+						<expression>span#source_baidu</expression>
+						<column name="sourceSiteName" type="string" replace="来源："></column>	来源				
+					</selector>				
+				</selector>
+				<selector>
+					<expression>div.note-right > span#editor_baidu</expression>
+					<column name="epEditor" type="string" find="编辑：.*" replace="编辑：" ></column>	责任编辑
+				</selector>
+			
+			</selector>
+			<selector>
+				<expression>section</expression>
+				<column name="content" type="string"></column>	文章内容
+				<selector>
+					<expression whole="1">table img[src]|p img[src],p.pictext </expression>				
+					<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题				
+				</selector>				
+			</selector>			
+		</selector>		
+	</template>
+
+	<!-- 网页布局如：http://finance.newssc.org/system/20161117/002058431.html -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>		
+		<contentfilter increment="2" repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.content_main_cs_box</expression>
+			<selector>
+				<expression>div.content_main_cs_tit</expression>
+				<selector>
+					<expression>h3</expression>
+					<column name="title" type="string"></column>	文章标题
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->				
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_SICHUANNEWS_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>					
+				</selector>
+				<selector>
+					<expression>div.pad_t15</expression>
+					<column name="publishDateTime" type="date" find=".*\s*来源" replace="\s*来源"></column>	出版时间
+					<column name="getDateTime" type="DATE"></column>
+					<column name="sourceSiteName" type="string" find="来源：\s*[\u4E00-\u9FA5]+" replace="来源：\s*"></column>	来源				
+					<column name="epEditor" type="string" find="编辑：\s*[\u4E00-\u9FA5]+" replace="编辑：\s*" ></column>	责任编辑
+				</selector>
+			</selector>
+			<selector>
+				<expression>div.content_main_cs</expression>
+				<column name="content" type="string"></column>	文章内容
+				<selector>
+					<expression whole="1">table img[src]|p img[src],p img[title]</expression>				
+					<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题				
+				</selector>	
+			</selector>		
+		</selector>
+		
+	</template>
+
+<!-- 网页布局如：http://edu.newssc.org/system/20161216/002078600.htm -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>		
+		<contentfilter increment="2" repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>tbody > tr > td</expression>
+			<selector>
+				<expression>table > tbody > tr</expression>
+				<selector>
+					<expression>td#main_left_title</expression>
+					<column name="title" type="string"></column>	文章标题	
+					<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+					<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->			
+					<column name="entityId" type="ID" isentity="true">
+						<repeatkey repeatstore="HASH_4_SICHUANNEWS_ENTITY_ID"></repeatkey>
+					</column>
+					<column name="entityUrl" type="string">
+						<formatter>
+							<template>{url}</template>
+							<ref tempdata="true">url</ref>
+						</formatter>
+					</column>
+				</selector>
+				<selector>
+					<expression>td.jianjie</expression>
+					<column name="publishDateTime" type="date" find="(\d+-?)+\s*\d+:\d+"></column>	出版时间
+					<column name="getDateTime" type="DATE"></column>
+					<column name="sourceSiteName" type="string" find="来源：\s*[\u4E00-\u9FA5]+" replace="来源：\s*"></column>	来源				
+				</selector>
+				<selector>
+					<expression>td[align=left][class=content14]</expression>
+					<column name="content" type="string"></column>	文章内容
+					<selector>
+						<expression whole="1">p img[src],p img[title]|p span</expression>				
+						<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题				
+					</selector>	
+				</selector>
+				<selector>
+					<expression>td[align=right][class=content14]</expression>编辑：
+					<column name="epEditor" type="string" find="编辑：\s*[\u4E00-\u9FA5]+" replace="编辑：\s*" ></column>	责任编辑
+				</selector>							
+			</selector>
+		</selector>
+	</template>
+				
+	<!-- 网页布局如：http://edu.newssc.org/system/20161207/002072785.htm -->
+	<template>
+		<collectname>c_gd_news_basicinfo</collectname>
+		<!-- c_gd_news_basic_info -->
+		<tempdata>url</tempdata>
+		<initdata>all</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>		
+		<contentfilter increment="2" repeatstore="HASH_4_SICHUANNEWS_ARTICLE_REPEAT">
+			<filter rownotnullcol="title">null</filter>
+		</contentfilter>
+		<selector>
+			<expression>div.Part_center</expression>
+			<selector>
+				<expression>div div.bsbt</expression>
+				<column name="title" type="string"></column>	文章标题
+				<column name="commentCount" type="constant" value="0"></column>	<!-- 评论数（动态） -->	
+				<column name="joinCount" type="constant" value="0"></column>	<!-- 参与人数（动态） -->					
+				<column name="entityId" type="ID" isentity="true">
+					<repeatkey repeatstore="HASH_4_SICHUANNEWS_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>			
+			</selector>
+			<selector>
+				<expression>div div.txt_12px</expression>
+				<column name="publishDateTime" type="date" find="(\d+-?)+\s*\d+:\d+"></column>	出版时间
+				<column name="getDateTime" type="DATE"></column>
+				<column name="sourceSiteName" type="string" find="来源：\s*[\u4E00-\u9FA5]+" replace="来源：\s*"></column>	来源				
+			</selector>
+			<selector>
+				<expression>div div.txt_zw</expression>
+				<column name="content" type="string"></column>	文章内容
+				<selector>
+					<expression whole="1">table img[src],table img[title]</expression>				
+					<column name="picAndName" type="picTitleJsonArr"></column>	图片和标题				
+				</selector>
+				<selector>
+					<expression>table span#editor_baidu</expression>
+					<column name="epEditor" type="string" find="编辑：\s*[\u4E00-\u9FA5]+" replace="\[编辑：\s*|\]" ></column>	责任编辑
+				</selector>
+			</selector>			
+		</selector>
+	</template>
+	<pattern>^http://\w+\.newssc\.org((/system)|(/news))(/\w+)+\.htm(l)?$</pattern>
+</root>

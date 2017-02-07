@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<tempdata>url</tempdata>
+		<initdata>entityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div#content > div > div.article</expression>
+			<selector>
+				<expression>div.review-list > div > div > div > header > h3 > a</expression>
+				<column type="URL" referer="entityId" repeatstore="HASH_4_DBAN_REVIEW_REPEAT">
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.paginator > span.next > a[href]</expression>
+				<column type="URL" referer="entityId">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/subject/\w+/reviews\?.*sort=time.*</pattern>
+</root>

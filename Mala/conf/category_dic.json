@@ -1,0 +1,506 @@
+{
+  "17": [
+    {
+      "typeId": "1",
+      "categaryName": "热门",
+      "url": "http://weibo.com/?category=0"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "明星",
+      "url": "http://weibo.com/?category=2"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "搞笑",
+      "url": "http://weibo.com/?category=10011"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "社会",
+      "url": "http://weibo.com/?category=7"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "头条",
+      "url": "http://weibo.com/?category=1760"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "情感",
+      "url": "http://weibo.com/?category=10010"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "搞笑",
+      "url": "http://weibo.com/?category=12"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "军事",
+      "url": "http://weibo.com/?category=4"
+    },
+    {
+      "typeId": "1",
+      "categaryName": "榜单",
+      "url": "http://weibo.com/?category=99991"
+    }
+  ],
+  "24": [
+    {
+      "typeId": "0",
+      "categaryName": "教育",
+      "url": "http://edu.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "旅游",
+      "url": "http://travel.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "娱乐",
+      "url": "http://ent.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "体育",
+      "url": "http://sports.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "财经",
+      "url": "http://finance.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "科技",
+      "url": "http://tech.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "政务",
+      "url": "http://gov.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "评论",
+      "url": "http://news.sina.com.cn/opinion/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "军事",
+      "url": "http://mil.news.sina.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "社会",
+      "url": "http://news.sina.com.cn/society/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "国际",
+      "url": "http://news.sina.com.cn/world/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "国内",
+      "url": "http://news.sina.com.cn/china/"
+    }
+  ],
+  "39": [
+    {
+      "typeId": "0",
+      "categaryName": "资讯",
+      "url": "http://news.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "财经",
+      "url": "http://finance.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "娱乐",
+      "url": "http://ent.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "体育",
+      "url": "http://sports.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "汽车",
+      "url": "http://auto.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "科技",
+      "url": "http://tech.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "智库",
+      "url": "http://pit.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "游戏",
+      "url": "http://games.ifeng.com/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "佛教",
+      "url": "http://fo.ifeng.com/"
+    }
+  ],
+  "40": [
+    {
+      "typeId": "0",
+      "categaryName": "时政",
+      "url": "http://politics.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "国际",
+      "url": "http://world.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "财经",
+      "url": "http://finance.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "台湾",
+      "url": "http://tw.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "军事",
+      "url": "http://military.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "观点",
+      "url": "http://opinion.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "领导",
+      "url": "http://leaders.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "人事",
+      "url": "http://renshi.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "理论",
+      "url": "http://theory.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "法治",
+      "url": "http://legal.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "社会",
+      "url": "http://legal.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "教育",
+      "url": "http://edu.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "体育",
+      "url": "http://sports.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "文化",
+      "url": "http://culture.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "书画",
+      "url": "http://art.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "房产",
+      "url": "http://house.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "汽车",
+      "url": "http://auto.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "科技",
+      "url": "http://scitech.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "扶贫",
+      "url": "http://rmfp.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "反腐",
+      "url": "http://fanfu.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "食品",
+      "url": "http://shipin.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "IT",
+      "url": "http://it.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "环保",
+      "url": "http://env.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "能源",
+      "url": "http://energy.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "金融",
+      "url": "http://money.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "公益",
+      "url": "http://gongyi.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "娱乐",
+      "url": "http://ent.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "港澳",
+      "url": "http://hm.people.com.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "舆情",
+      "url": "http://yuqing.people.com.cn/"
+    }
+  ],
+  "41": [
+    {
+      "typeId": "0",
+      "categaryName": "教育",
+      "url": "http://edu.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "环保",
+      "url": "http://huanbao.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "食品",
+      "url": "http://sp.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "文化",
+      "url": "http://culture.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "国际",
+      "url": "http://world.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "国内",
+      "url": "http://china.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "体育",
+      "url": "http://sports.newssc.org/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "财经",
+      "url": "http://finance.newssc.org/"
+    }
+  ],
+  "42": [
+    {
+      "typeId": "0",
+      "categaryName": "精选",
+      "url": "http://www.thepaper.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "时事",
+      "url": "http://www.thepaper.cn/channel_25950"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "财经",
+      "url": "http://www.thepaper.cn/channel_25951"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "思想",
+      "url": "http://www.thepaper.cn/channel_25952"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "生活",
+      "url": "http://www.thepaper.cn/channel_25953"
+    }
+  ],
+  "43": [
+    {
+      "typeId": "0",
+      "categaryName": "时政",
+      "url": "http://www.news.cn/politics/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "法治",
+      "url": "http://www.news.cn/legal/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "地方",
+      "url": "http://www.news.cn/local/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "人事",
+      "url": "http://www.xinhuanet.com/politics/rs.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "理论",
+      "url": "http://www.xinhuanet.com/politics/xhll.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "港澳",
+      "url": "http://www.news.cn/gangao/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "台湾",
+      "url": "http://www.news.cn/tw/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "军事",
+      "url": "http://www.news.cn/mil/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "华人",
+      "url": "http://www.news.cn/overseas/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "访谈",
+      "url": "http://www.xinhuanet.com/talking/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "金融",
+      "url": "http://www.news.cn/fortune/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "教育",
+      "url": "http://education.news.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "汽车",
+      "url": "http://www.news.cn/auto/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "科技",
+      "url": "http://www.news.cn/tech/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "房产",
+      "url": "http://www.news.cn/house/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "能源",
+      "url": "http://www.news.cn/energy/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "娱乐",
+      "url": "http://ent.news.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "食品",
+      "url": "http://www.news.cn/food/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "时尚",
+      "url": "http://www.news.cn/fashion/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "旅游",
+      "url": "http://travel.news.cn/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "健康",
+      "url": "http://www.news.cn/health/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "体育",
+      "url": "http://www.news.cn/sports/"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "公益",
+      "url": "http://www.news.cn/gongyi/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "舆情",
+      "url": "http://www.news.cn/yuqing/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "信息化",
+      "url": "http://www.news.cn/info/index.htm"
+    },
+    {
+      "typeId": "0",
+      "categaryName": "微视评",
+      "url": "http://www.news.cn/video/xhwsp/index.htm"
+    }
+  ]
+}

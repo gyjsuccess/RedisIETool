@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_basic_info</collectname>
+		<tempdata>url</tempdata>
+		<initdata>siteId|siteName|siteKindId|siteKindName|crawlrepeat|tv_model</initdata>
+		<datatype>html</datatype>
+		<!-- <contentfilter increment="1" repeatstore="HASH_4_DBAN_ENTITY_REPEAT">
+			<filter>all</filter>
+		</contentfilter> -->
+		<repeatkey></repeatkey>
+		<selector>
+			<expression>div#content</expression>
+			<selector>
+				<expression>h1 > span[property]</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="name" type="string"></column>
+				<!-- <column name="name" type="string" replace=" .*"></column> --><!-- 中文名称 -->
+				<!-- <column name="locationName" type="string" replace=".* "></column> --><!-- 本地化名称 日语、英语、韩语等等-->
+				<column name="entityId" type="ID" isentity="true" >
+					<repeatkey repeatstore="HASH_4_DBAN_ENTITY_ID"></repeatkey>
+				</column>
+				<column name="entityUrl" type="string">
+					<formatter>
+						<template>{url}</template>
+						<ref tempdata="true">url</ref>
+					</formatter>
+				</column>
+			</selector>
+			<selector>
+				<expression>h1 > span.year</expression>
+				<column name="year" type="string" replace="\(|\)"></column><!-- 年代 -->
+			</selector>
+			<selector>
+				<expression>div.clearfix > div.article</expression>
+				<selector>
+					<expression>div.related-info > div.indent span[property]</expression>
+					<column name="summariness" type="string"></column> <!-- 剧情简介 -->
+				</selector>
+				<selector>
+					<expression>div.indent > div.subjectwrap</expression>
+					<selector>
+						<expression>div#interest_sectl > div > div.rating_self</expression>
+						<selector>
+							<expression>strong.rating_num</expression>
+							<column name="ratingNum" type="string"></column> <!-- 评分 -->
+						</selector>
+						<selector>
+							<expression>div > div.rating_sum > a.rating_people > span[property]</expression>
+							<column name="ratingPeopleNum" type="string"></column> <!-- 评分人数 -->
+						</selector>
+					</selector>
+					<selector>
+						<expression>div.subject > div#info</expression>
+						<column name="detailInfo" type="htmlsource"></column> <!-- 基本信息 -->
+						<selector>
+							<expression>a</expression>
+					<!--	<column name="basicUrl" type="string" repeatstore="HASH_4_DBAN_CELEBRITY_REPEAT" referer="entityId">
+								<attrname>href</attrname>
+							</column>-->
+						</selector>
+					</selector>
+				</selector>
+				<selector>
+					<expression>div#comments-section > div.mod-hd > h2 > span > a</expression>
+					<column name="shortCommentCount" find="\d+" type="string"></column> <!-- 短评数量 -->
+					<!--  <column type="URL" referer="entityId" headerreferer="true">
+						<formatter>
+							<template>{self}?sort=new_score</template>
+						</formatter>
+						<attrname>href</attrname>
+					</column>
+					-->
+				</selector>
+				<selector>
+					<expression>div#review_section > div.mod-hd > h2 > span > a|div.article > section > header > h2 > span > a</expression>
+					<column name="commentCount" find="\d+" type="string"></column> <!-- 影评数量 -->
+					<column type="URL" referer="entityId" >
+						<formatter>
+							<template>{self}?sort=time</template>
+						</formatter>
+						<attrname>href</attrname>
+					</column>
+				</selector>
+				<selector>
+					<expression>div.mod > div.bd > div.discussion-list > a|div#askmatrix > div.mod-bd > p > a</expression>
+					<column name="discussionCount" find="\d+" type="string"></column> <!-- 问题数量 -->
+				</selector>
+				<selector>
+					<expression>div#recommendations > div</expression>
+					<column name="refereredNames" type="string"></column> <!-- 喜欢这部电影的人也喜欢 -->
+					<column name="refereredDetail" type="htmlsource"></column> <!-- 喜欢这部电影的人也喜欢 -->
+				</selector>
+			</selector>
+			<selector>
+				<expression>div.clearfix > div.aside > div.tags > div.tags-body</expression>
+				<column name="tags" type="string"></column> <!-- 标签 -->
+			</selector>
+			<selector>
+				<expression>div.subject-others-interests-ft</expression>
+				<selector>
+					<expression>a[href*=doings]</expression>
+					<column name="doingsNum" type="integer"></column> <!-- 在看 -->
+				</selector>
+				<selector>
+					<expression>a[href*=collections]</expression>
+					<column name="collectionsNum" type="integer"></column> <!-- 看过 -->
+				</selector>
+				<selector>
+					<expression>a[href*=wishes]</expression>
+					<column name="wishesNum" type="integer"></column> <!-- 想看 -->
+				</selector>
+			</selector>
+			<selector>
+				<expression>div#subject-doulist span > a[href]</expression>
+				<column name="douList" type="string" referer="entityId"> <!-- 豆列-->
+					<attrname>href</attrname>
+				</column> 
+			</selector>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/subject/\w+/$</pattern>
+</root>

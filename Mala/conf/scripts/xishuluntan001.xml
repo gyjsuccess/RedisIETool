@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>xishuluntan</collectname>
+		<datatype>html</datatype>
+		<selector>
+			<expression>#ct > div.mn.uwel > div.fl.bm > div</expression>
+			<selector>
+				<expression>tbody > tr > td> dl > dt > a</expression>            <!-- 所有标签 -->
+				<column type="URL">
+					<attrname>href</attrname>	
+				</column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^http://bbs\.xishu365\.com/forum\.php$</pattern>
+</root>

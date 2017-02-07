@@ -1,0 +1,10 @@
+[
+	{
+		"cron":"com.command.quartz.job.CommandExecJob:0/5 * * * * ?",
+		"command":"python test.py"
+	},
+	{
+                "cron":"com.command.quartz.job.CommandExecJob:0/10 * * * * ?",
+                "command":"python test1.py"
+        }
+]

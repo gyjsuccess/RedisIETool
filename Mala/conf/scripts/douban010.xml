@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<collectname>douban_media_celebrity_movies</collectname>
+		<tempdata>url</tempdata>
+		<initdata>celebrityId|siteId|siteName</initdata>
+		<datatype>html</datatype>
+		<selector>
+			<expression>div#content div.article > div > ul > li</expression>
+			<selector>
+				<expression>dl > dd > h6 > a[href]</expression>
+				<column name="getDateTime" type="DATE"></column>
+				<column name="movieName" type="string"></column>
+				<column name="movieUrl" type="string">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+			<selector>
+				<expression>dl > dd > h6 >span:nth-child(2)</expression>
+				<column name="movieYear" type="string"></column>
+			</selector>
+			<selector>
+				<expression>dl > dd > h6 >span:nth-last-child(2)</expression>
+				<column name="moviePublicStatus" type="string"></column> <!-- 上映状态 -->
+			</selector>
+			<selector>
+				<expression>dl > dd > h6 >span:nth-last-child(1)</expression>
+				<column name="celebrityRole" type="string"></column>
+			</selector>
+		</selector>
+		<selector>
+			<expression>div.paginator > span.next >a</expression>
+			<column type="URL">
+				<attrname>href</attrname>
+			</column>
+		</selector>
+	</template>
+	<pattern>^https://movie\.douban\.com/celebrity/\w+/movies\??.*</pattern>
+</root>

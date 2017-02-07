@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>div#content > div > div.article</expression>
+			<selector>
+				<expression>div:nth-child(3) > table > tbody > tr > td:nth-child(2) > div > a</expression>
+				
+				<column type="URL" repeatstore="HASH_4_DBAN_ENTITY_REPEAT" >
+					<attrname>href</attrname>
+					<repeatkey></repeatkey>
+				</column>
+			</selector>
+			<selector>
+				<expression>div.paginator > span.next > a</expression>
+				<column type="URL">
+					<attrname>href</attrname>
+				</column>
+			</selector>
+		</selector>
+	</template>
+	<pattern>^https://\w+\.douban\.com/tag/\d{4}\?.*type=R$</pattern>
+</root>

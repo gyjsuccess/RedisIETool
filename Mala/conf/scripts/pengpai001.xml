@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<template>
+		<datatype>html</datatype>
+		<tempdata>url</tempdata>
+		<repeatkey></repeatkey>
+		<pageinitnum>1</pageinitnum>
+		<selector>
+			<expression>a[href]</expression>
+			<column type="URL" filter="^http://www\.thepaper\.cn/newsDetail_forward_\d+$" retain="1" 
+				repeatstore="HASH_4_PENGPAI_ARTICLE_REPEAT" crawlrepeat="0">	<!-- 文章链接 -->
+				<attrname>href</attrname>
+				<repeatkey></repeatkey>
+			</column>
+		</selector>		
+	</template>	
+	<pattern>^http://www\.thepaper\.cn/(channel_2595[0-3])?$</pattern>
+</root>
